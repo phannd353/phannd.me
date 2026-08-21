@@ -1,0 +1,35 @@
+services:
+  phannd.me-pgdb:
+    image: postgres:alpine
+    container_name: phannd.me-pgdb
+    environment:
+      POSTGRES_USER: phannd
+      POSTGRES_PASSWORD: secure_password
+      POSTGRES_DB: phannd
+    ports:
+      - '5432:5432'
+    volumes:
+      - phannd.me-pgdb-data:/var/lib/postgresql
+
+  phannd.me-rdb:
+    image: redis:alpine
+    container_name: phannd.me-rdb
+    ports:
+      - '6379:6379'
+    volumes:
+      - phannd.me-rdb-data:/data
+
+  phannd.me-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: phannd.me-app
+    environment:
+      DATABASE_URL: postgres://phannd:secure_password@phannd.me-pgdb/phannd
+    depends_on:
+      - phannd.me-pgdb
+      - phannd.me-rdb
+
+volumes:
+  phannd.me-pgdb-data:
+  phannd.me-rdb-data:
