@@ -1,0 +1,50 @@
+import { Providers } from './provider';
+
+import { ScrollToTop } from '@/components/ScrollToTop';
+
+import '../styles/globals.css';
+import { getMessages } from 'next-intl/server';
+import { NextIntlClientProvider } from 'next-intl';
+import { API_ENDPOINT } from '@/lib/config';
+import { Suspense } from 'react';
+
+const locales = ['vi', 'en'] as const;
+export async function generateStaticParams() {
+  return locales.map((locale) => ({ locale }));
+}
+
+export default async function AdminLayout({
+  children,
+  params,
+}: Readonly<{
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+}>) {
+  const { locale } = await params;
+  const messages = await getMessages({ locale });
+
+  return (
+    <html lang={locale} className={'font-mono'} data-scroll-behavior='smooth'>
+      <head>
+        <link rel='preconnect' href='https://fonts.googleapis.com' />
+        <link
+          rel='preconnect'
+          href='https://fonts.gstatic.com'
+          crossOrigin='anonymous'
+        />
+        <link rel='preconnect' href={API_ENDPOINT} />
+      </head>
+      <body className={`antialiased flex min-h-svh flex-col`}>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <Suspense fallback={null}>
+            <Providers>
+              {children}
+
+              <ScrollToTop />
+            </Providers>
+          </Suspense>
+        </NextIntlClientProvider>
+      </body>
+    </html>
+  );
+}

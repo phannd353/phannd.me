@@ -1,0 +1,78 @@
+'use client';
+
+import './index.css';
+
+import Heading from './Heading';
+import Paragraph from './Paragraph';
+import Image from './Image';
+import List from './List';
+import LinkTool from './LinkTool';
+import { useEffect } from 'react';
+import Quote from './Quote';
+import Delimiter from './Delimiter';
+import Table from './Table';
+import { tryParseJSONObject } from '@/helper/renderer.helper';
+
+export default function TextRenderer({
+  content,
+  truncate,
+  maxLines = 3,
+}: {
+  content: string;
+  truncate?: boolean;
+  maxLines?: number;
+}) {
+  const obj = tryParseJSONObject(content || '{"blocks": []}');
+
+  useEffect(() => {
+    document.querySelectorAll('.edjs-paragraph a').forEach((a) => {
+      a.setAttribute('target', '_blank');
+      a.setAttribute('rel', 'noreferrer noopener');
+    });
+  });
+
+  return (
+    <section
+      className="typography max-w-full"
+      style={
+        truncate
+          ? {
+              display: '-webkit-box',
+              textOverflow: 'ellipsis',
+              WebkitLineClamp: maxLines,
+              WebkitBoxOrient: 'vertical',
+              overflowWrap: 'normal',
+              overflow: 'hidden',
+            }
+          : {}
+      }
+    >
+      {!(obj && obj.blocks) ? (
+        <Paragraph data={{ text: content }} />
+      ) : (
+        obj.blocks.map((block: any, index: number) => {
+          // @ts-ignore
+          const Component = components[block.type] || Paragraph;
+          return (
+            <Component key={index} data={block.data} tunes={block.tunes} />
+          );
+        })
+      )}
+    </section>
+  );
+}
+
+const components = {
+  header: Heading,
+  paragraph: Paragraph,
+  image: Image,
+  list: List,
+  linkTool: LinkTool,
+  quote: Quote,
+  // code: Code,
+  delimiter: Delimiter,
+  table: Table,
+  // warning: Warning,
+  // raw: Raw,
+  // embed: Embed,
+};
