@@ -1,6 +1,6 @@
 
 OPENAPI_DIR = server/api/openapi
-OUTPUT_DIR = shared/interfaces
+OUTPUT_DIR = client/shared/interfaces
 
 JSONS := $(wildcard $(OPENAPI_DIR)/*.json)
 TS_OUTPUTS := $(patsubst $(OPENAPI_DIR)/%.json,$(OUTPUT_DIR)/%.ts,$(JSONS))
