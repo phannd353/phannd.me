@@ -1,15 +1,15 @@
-"use client"
+"use client";
 
 import {
   type ApiKeyAuthClient,
-  apiKeyExpirationDaysToSeconds
-} from "@better-auth-ui/core/plugins/api-key"
-import { useAuth, useAuthPlugin } from "@better-auth-ui/react"
-import { useCreateApiKey } from "@better-auth-ui/react/plugins/api-key"
-import { Key } from "lucide-react"
-import { type SyntheticEvent, useState } from "react"
-import { Button, buttonVariants } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
+  apiKeyExpirationDaysToSeconds,
+} from "@better-auth-ui/core/plugins/api-key";
+import { useAuth, useAuthPlugin } from "@better-auth-ui/react";
+import { useCreateApiKey } from "@better-auth-ui/react/plugins/api-key";
+import { Key } from "lucide-react";
+import { type SyntheticEvent, useState } from "react";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
   DialogClose,
@@ -17,134 +17,134 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle
-} from "@/components/ui/dialog"
+  DialogTitle,
+} from "@/components/ui/dialog";
 import {
   Field,
   FieldError,
   FieldGroup,
-  FieldLabel
-} from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
+  FieldLabel,
+} from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectGroup,
   SelectItem,
   SelectTrigger,
-  SelectValue
-} from "@/components/ui/select"
-import { Spinner } from "@/components/ui/spinner"
-import { Switch } from "@/components/ui/switch"
-import { Textarea } from "@/components/ui/textarea"
-import { apiKeyPlugin } from "@/lib/auth/api-key-plugin"
-import { NewApiKeyDialog } from "./new-api-key-dialog"
+  SelectValue,
+} from "@/components/ui/select";
+import { Spinner } from "@/components/ui/spinner";
+import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
+import { apiKeyPlugin } from "@/lib/auth/api-key-plugin";
+import { NewApiKeyDialog } from "./new-api-key-dialog";
 
 export type CreateApiKeyDialogProps = {
-  open: boolean
-  onOpenChange: (open: boolean) => void
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
   /** Create an organization-owned key by passing the organization id. */
-  organizationId?: string
-}
+  organizationId?: string;
+};
 
 export function CreateApiKeyDialog({
   open,
   onOpenChange,
-  organizationId
+  organizationId,
 }: CreateApiKeyDialogProps) {
-  const { authClient, localization } = useAuth<ApiKeyAuthClient>()
+  const { authClient, localization } = useAuth<ApiKeyAuthClient>();
   const {
     configurations,
     keyExpiration,
     localization: apiKeyLocalization,
-    permissions
-  } = useAuthPlugin(apiKeyPlugin)
+    permissions,
+  } = useAuthPlugin(apiKeyPlugin);
 
   const { mutate: createApiKey, isPending: isCreating } =
-    useCreateApiKey(authClient)
+    useCreateApiKey(authClient);
 
-  const [isNewKeyDialogOpen, setIsNewKeyDialogOpen] = useState(false)
-  const [keyName, setKeyName] = useState<string | null>(null)
-  const [secretKey, setSecretKey] = useState<string | null>(null)
-  const [rateLimitEnabled, setRateLimitEnabled] = useState(false)
-  const [formError, setFormError] = useState<string>()
+  const [isNewKeyDialogOpen, setIsNewKeyDialogOpen] = useState(false);
+  const [keyName, setKeyName] = useState<string | null>(null);
+  const [secretKey, setSecretKey] = useState<string | null>(null);
+  const [rateLimitEnabled, setRateLimitEnabled] = useState(false);
+  const [formError, setFormError] = useState<string>();
   const availableConfigurations = configurations.filter(
-    (configuration) => configuration.organization === Boolean(organizationId)
-  )
+    (configuration) => configuration.organization === Boolean(organizationId),
+  );
   const expirationItems = keyExpiration
     ? [
         ...keyExpiration.intervals.map((days) => ({
           label: `${days.toLocaleString()} ${
             days === 1 ? apiKeyLocalization.day : apiKeyLocalization.days
           }`,
-          value: String(days)
+          value: String(days),
         })),
         ...(keyExpiration.allowNever
           ? [{ label: apiKeyLocalization.never, value: "never" }]
-          : [])
+          : []),
       ]
-    : []
+    : [];
 
   const handleOpenChange = (nextOpen: boolean) => {
     if (!nextOpen) {
-      setKeyName(null)
-      setSecretKey(null)
+      setKeyName(null);
+      setSecretKey(null);
     }
 
-    onOpenChange(nextOpen)
-  }
+    onOpenChange(nextOpen);
+  };
 
   const handleNewKeyDialogOpenChange = (nextOpen: boolean) => {
-    setIsNewKeyDialogOpen(nextOpen)
+    setIsNewKeyDialogOpen(nextOpen);
 
     if (!nextOpen) {
-      setKeyName(null)
-      setSecretKey(null)
+      setKeyName(null);
+      setSecretKey(null);
     }
-  }
+  };
 
   const handleSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    const formData = new FormData(e.target as HTMLFormElement)
-    const name = (formData.get("name") as string).trim()
-    const expiration = formData.get("expiration")
+    const formData = new FormData(e.target as HTMLFormElement);
+    const name = (formData.get("name") as string).trim();
+    const expiration = formData.get("expiration");
     const expirationDays =
       typeof expiration === "string" && expiration !== "never"
         ? Number(expiration)
-        : undefined
+        : undefined;
     const expiresIn = expirationDays
       ? apiKeyExpirationDaysToSeconds(expirationDays)
-      : undefined
+      : undefined;
 
     const numberValue = (field: string) => {
-      const value = String(formData.get(field) ?? "").trim()
-      return value ? Number(value) : undefined
-    }
+      const value = String(formData.get(field) ?? "").trim();
+      return value ? Number(value) : undefined;
+    };
     const selectedPermissions = Object.fromEntries(
       permissions
         .map((permission) => {
           const actions = permission.actions
             .map((action) => (typeof action === "string" ? action : action.id))
             .filter((action) =>
-              formData.has(`permission:${permission.resource}:${action}`)
-            )
-          return [permission.resource, actions] as const
+              formData.has(`permission:${permission.resource}:${action}`),
+            );
+          return [permission.resource, actions] as const;
         })
-        .filter(([, actions]) => actions.length)
-    )
-    let metadata: unknown
+        .filter(([, actions]) => actions.length),
+    );
+    let metadata: unknown;
     try {
-      const metadataText = String(formData.get("metadata") ?? "").trim()
-      metadata = metadataText ? JSON.parse(metadataText) : undefined
-      setFormError(undefined)
+      const metadataText = String(formData.get("metadata") ?? "").trim();
+      metadata = metadataText ? JSON.parse(metadataText) : undefined;
+      setFormError(undefined);
     } catch {
-      setFormError("Metadata must contain valid JSON.")
-      return
+      setFormError("Metadata must contain valid JSON.");
+      return;
     }
-    const configId = String(formData.get("configId") ?? "").trim()
+    const configId = String(formData.get("configId") ?? "").trim();
     const resolvedConfigId =
-      configId || (organizationId ? "organization" : undefined)
+      configId || (organizationId ? "organization" : undefined);
     const payload = {
       ...(name ? { name } : {}),
       ...(expiresIn ? { expiresIn } : {}),
@@ -159,18 +159,18 @@ export function CreateApiKeyDialog({
       refillInterval: numberValue("refillInterval"),
       rateLimitEnabled,
       rateLimitMax: numberValue("rateLimitMax"),
-      rateLimitTimeWindow: numberValue("rateLimitTimeWindow")
-    }
+      rateLimitTimeWindow: numberValue("rateLimitTimeWindow"),
+    };
 
     createApiKey(Object.keys(payload).length > 0 ? payload : undefined, {
       onSuccess: (result) => {
-        handleOpenChange(false)
-        setKeyName(name)
-        setSecretKey(result.key)
-        setIsNewKeyDialogOpen(true)
-      }
-    })
-  }
+        handleOpenChange(false);
+        setKeyName(name);
+        setSecretKey(result.key);
+        setIsNewKeyDialogOpen(true);
+      },
+    });
+  };
 
   return (
     <>
@@ -211,10 +211,6 @@ export function CreateApiKeyDialog({
                     {apiKeyLocalization.configuration}
                   </FieldLabel>
                   <Select
-                    items={availableConfigurations.map((configuration) => ({
-                      label: configuration.label,
-                      value: configuration.id
-                    }))}
                     name="configId"
                     defaultValue={availableConfigurations[0]?.id}
                     disabled={isCreating}
@@ -248,7 +244,6 @@ export function CreateApiKeyDialog({
                   </FieldLabel>
 
                   <Select
-                    items={expirationItems}
                     name="expiration"
                     defaultValue={
                       keyExpiration.defaultInterval === null
@@ -314,8 +309,9 @@ export function CreateApiKeyDialog({
                   </FieldLabel>
                   <div className="flex flex-wrap gap-3">
                     {permission.actions.map((action) => {
-                      const id = typeof action === "string" ? action : action.id
-                      const checkboxId = `api-key-permission-${permission.resource}-${id}`
+                      const id =
+                        typeof action === "string" ? action : action.id;
+                      const checkboxId = `api-key-permission-${permission.resource}-${id}`;
                       return (
                         <label
                           className="flex items-center gap-2 text-sm"
@@ -328,7 +324,7 @@ export function CreateApiKeyDialog({
                           />
                           {typeof action === "string" ? action : action.label}
                         </label>
-                      )
+                      );
                     })}
                   </div>
                 </Field>
@@ -369,7 +365,7 @@ export function CreateApiKeyDialog({
         name={keyName}
       />
     </>
-  )
+  );
 }
 
 function NumberField({ name, label }: { name: string; label: string }) {
@@ -378,5 +374,5 @@ function NumberField({ name, label }: { name: string; label: string }) {
       <FieldLabel htmlFor={`api-key-${name}`}>{label}</FieldLabel>
       <Input id={`api-key-${name}`} name={name} type="number" min={0} />
     </Field>
-  )
+  );
 }

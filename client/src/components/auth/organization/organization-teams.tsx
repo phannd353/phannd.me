@@ -171,7 +171,6 @@ function TeamCard({
           <Field className="flex-1">
             <FieldLabel>{localization.addTeamMember}</FieldLabel>
             <Select
-              items={availableMembers}
               value={userId}
               onValueChange={(value) => setUserId(value ?? "")}
             >

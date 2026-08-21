@@ -178,7 +178,6 @@ export function InviteMemberDialog({
               </FieldLabel>
 
               <Select
-                items={roleItems}
                 value={role}
                 onValueChange={(value) => setRole(value ?? "")}
                 disabled={isInviting}
@@ -207,7 +206,6 @@ export function InviteMemberDialog({
                   {organizationLocalization.team}
                 </FieldLabel>
                 <Select
-                  items={teamItems}
                   value={teamId}
                   onValueChange={(value) => setTeamId(value ?? "")}
                   disabled={isInviting}

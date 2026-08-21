@@ -14,7 +14,6 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogMedia,
   AlertDialogTitle
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
@@ -60,9 +59,7 @@ export function LeaveOrganizationDialog({
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogMedia className="bg-destructive/10 text-destructive">
             <LogOut />
-          </AlertDialogMedia>
 
           <AlertDialogTitle>
             {organizationLocalization.leaveOrganization}

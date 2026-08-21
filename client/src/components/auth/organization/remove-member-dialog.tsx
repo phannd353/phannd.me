@@ -14,7 +14,6 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogMedia,
   AlertDialogTitle
 } from "@/components/ui/alert-dialog"
 import { Badge } from "@/components/ui/badge"
@@ -50,9 +49,7 @@ export function RemoveMemberDialog({
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogMedia className="bg-destructive/10 text-destructive">
             <Trash2 />
-          </AlertDialogMedia>
 
           <AlertDialogTitle>
             {organizationLocalization.removeMember}
@@ -67,7 +64,7 @@ export function RemoveMemberDialog({
           <CardContent className="flex flex-row items-center justify-between gap-2">
             <UserView user={member.user} />
 
-            <Badge variant="outline">
+            <Badge >
               {roles?.[member.role] ?? member.role}
             </Badge>
           </CardContent>

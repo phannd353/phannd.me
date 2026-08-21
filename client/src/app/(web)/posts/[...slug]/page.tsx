@@ -1,19 +1,18 @@
-import TextRenderer from '@/components/TextRenderer';
-import { getPost } from '@/services/post.service';
-import { format, parseISO } from 'date-fns';
-import { vi, enUS } from 'date-fns/locale';
-import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
-import readingTime, { ReadTimeResults } from 'reading-time';
-import DetailPostHeading from '@/components/website/post/detail/detail-post-heading';
-import { Card, CardContent } from '@/components/ui/card';
-import { CLIENT_HOST } from '@/lib/config';
-import { genMetadata } from '@/lib/metadata.lib';
+import TextRenderer from "@/components/TextRenderer";
+import { getPost } from "@/services/post.service";
+import { format, parseISO } from "date-fns";
+import { vi, enUS } from "date-fns/locale";
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
+import readingTime, { ReadTimeResults } from "reading-time";
+import DetailPostHeading from "@/components/website/post/detail/detail-post-heading";
+import { Card, CardContent } from "@/components/ui/card";
+import { CLIENT_HOST } from "@/lib/config";
+import { genMetadata } from "@/lib/metadata.lib";
 
 interface PostPageProps {
   params: Promise<{
     slug: string[];
-    locale: string;
   }>;
 }
 
@@ -30,8 +29,8 @@ interface PostPageProps {
 // }
 
 async function getPostHandler(params: { slug: string[] }) {
-  'use server';
-  const slug = params?.slug?.join('/');
+  "use server";
+  const slug = params?.slug?.join("/");
   const response = await getPost(slug);
 
   if (!response.data) {
@@ -46,8 +45,8 @@ export async function generateMetadata({
 }: PostPageProps): Promise<Metadata> {
   const resolvedParams = await params;
   const post = await getPostHandler(resolvedParams);
-  const description = post?.summary?.slice(0, 100) + ('...' as string);
-  const path = '/posts/' + post?.slug;
+  const description = post?.summary?.slice(0, 100) + ("..." as string);
+  const path = "/posts/" + post?.slug;
 
   if (!post) {
     return {};
@@ -56,9 +55,9 @@ export async function generateMetadata({
   return genMetadata({
     title: post.title,
     description,
-    locale: resolvedParams.locale,
+    locale: "vi",
     path,
-    images: [post.thumbnail || '/assets/image/not-found.webp'],
+    images: [post.thumbnail || "/assets/image/not-found.webp"],
   });
 }
 
@@ -77,7 +76,8 @@ export async function generateMetadata({
 // }
 
 export default async function PostPage({ params }: PostPageProps) {
-  const { locale, ...resolvedParams } = await params;
+  const locale = "vi"; // Default locale, you can change this based on your needs
+  const { ...resolvedParams } = await params;
   // Get post data
   const post = await getPostHandler(resolvedParams);
   if (!post) {
@@ -90,25 +90,25 @@ export default async function PostPage({ params }: PostPageProps) {
 
   // // Get comments
   // const comments = await getComments(post.id as string);
-  const readTime = readingTime(post.content ? post.content : '');
+  const readTime = readingTime(post.content ? post.content : "");
 
   return (
     <Card>
-      <div className='mx-auto max-w-7xl px-0 sm:px-8'>
+      <div className="mx-auto max-w-7xl px-0 sm:px-8">
         <CardContent>
           {/*<div className="mx-auto max-w-4xl rounded-lg bg-white px-6 py-4 shadow-sm shadow-gray-300 ring-1 ring-black/5 sm:px-14 sm:py-10">*/}
-          <div className='relative mx-auto max-w-4xl py-2'>
+          <div className="relative mx-auto max-w-4xl py-2">
             {/* Heading */}
             <DetailPostHeading
               id={post.id}
               title={post.title as string}
-              thumbnail={post.thumbnail || '/assets/image/not-found.webp'}
+              thumbnail={post.thumbnail || "/assets/image/not-found.webp"}
               authorId={post.authorId}
               date={format(
                 parseISO(post.createdAt as any),
-                locale === 'vi' ? 'dd MMMM, yyyy' : 'MMMM dd, yyyy',
+                locale === "vi" ? "dd MMMM, yyyy" : "MMMM dd, yyyy",
                 {
-                  locale: locale === 'vi' ? vi : enUS,
+                  locale: locale === "vi" ? vi : enUS,
                 },
               )}
               // category={post.categories?.title as string}
@@ -130,7 +130,7 @@ export default async function PostPage({ params }: PostPageProps) {
               </div>*/}
             {/*</div>*/}
             {/* Content */}
-            <main className='relative mx-auto max-w-3xl border-slate-500/50 py-5'>
+            <main className="relative mx-auto max-w-3xl border-slate-500/50 py-5">
               <TextRenderer content={post.content} />
             </main>
             {/*<div className="mx-auto mt-10">*/}

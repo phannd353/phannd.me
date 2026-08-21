@@ -1,28 +1,28 @@
-import { Metadata } from 'next';
-import { getTranslations } from 'next-intl/server';
+import { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 
-import { BlogHeader, BlogSearch } from '@/components/website/blog';
-import { getMetadata } from '@/content/landing/metadata';
-import { genMetadata } from '@/lib/metadata.lib';
-import { PostsLayout } from '@/components/website/blog/posts-layout';
+import { BlogHeader, BlogSearch } from "@/components/website/blog";
+import { getMetadata } from "@/content/landing/metadata";
+import { genMetadata } from "@/lib/metadata.lib";
+import { PostsLayout } from "@/components/website/blog/posts-layout";
 
 interface BlogPageProps {
-  params: Promise<{ locale: string }>;
+  params: Promise<{}>;
   searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 export async function generateMetadata({
   params,
 }: BlogPageProps): Promise<Metadata> {
-  const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: 'BlogPage' });
+  const locale = "vi"; // Default locale, you can change this based on your needs
+  const t = await getTranslations({ locale, namespace: "BlogPage" });
   const metadata = await getMetadata({ locale });
 
   return genMetadata({
-    title: `${t('title')} - ${metadata.title}`,
-    description: t('description'),
+    title: `${t("title")} - ${metadata.title}`,
+    description: t("description"),
     locale,
-    path: '/blog',
+    path: "/blog",
     logo: metadata.logo,
   });
 }
@@ -31,7 +31,7 @@ export default async function HomePage({
   params,
   searchParams,
 }: BlogPageProps) {
-  const { locale } = await params;
+  const locale = "vi"; // Default locale, you can change this based on your needs
   const resolvedSearchParams = searchParams ? await searchParams : undefined;
 
   return (

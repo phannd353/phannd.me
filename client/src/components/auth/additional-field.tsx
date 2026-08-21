@@ -277,7 +277,6 @@ export function AdditionalField({
         <FieldLabel htmlFor={name}>{field.label}</FieldLabel>
 
         <Select
-          items={field.options ?? []}
           name={name}
           defaultValue={
             field.defaultValue != null ? String(field.defaultValue) : undefined

@@ -129,7 +129,6 @@ export function ChangeAvatar({ className }: ChangeAvatarProps) {
             </DropdownMenuItem>
 
             <DropdownMenuItem
-              variant='destructive'
               disabled={!session?.user.image}
               onClick={handleDelete}
             >

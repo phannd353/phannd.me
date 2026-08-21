@@ -15,7 +15,6 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogMedia,
   AlertDialogTitle
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
@@ -53,9 +52,7 @@ export function DeleteApiKeyDialog({
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogMedia>
             <Key />
-          </AlertDialogMedia>
 
           <AlertDialogTitle>{apiKeyLocalization.deleteApiKey}</AlertDialogTitle>
 
@@ -85,7 +82,6 @@ export function DeleteApiKeyDialog({
 
           <Button
             type="button"
-            variant="destructive"
             disabled={isDeleting}
             onClick={() =>
               deleteApiKey({

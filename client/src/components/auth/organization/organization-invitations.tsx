@@ -220,7 +220,6 @@ export function OrganizationInvitations({
                   aria-label={organizationLocalization.clear}
                   className='size-4 rounded-sm text-muted-foreground'
                   onClick={() => setRoleFilter('all')}
-                  size='icon-xs'
                   type='button'
                   variant='outline'
                 >
@@ -239,7 +238,6 @@ export function OrganizationInvitations({
                   aria-label={organizationLocalization.clear}
                   className='size-4 rounded-sm text-muted-foreground'
                   onClick={() => setStatusFilter('all')}
-                  size='icon-xs'
                   type='button'
                   variant='outline'
                 >

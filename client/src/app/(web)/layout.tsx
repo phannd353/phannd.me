@@ -11,12 +11,12 @@ import GoogleAnalytics from "@/components/website/GoogleAnalytics";
 export const revalidate = 60; // Revalidate every 60 seconds
 
 type Props = {
-  params: Promise<{ locale: string }>;
+  params: Promise<{}>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   try {
-    const { locale } = await params;
+    const locale = "vi"; // Default locale, you can change this based on your needs
     const metadata = await getMetadata({ locale });
 
     const title = metadata.title;
@@ -61,12 +61,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function RootLayout({
   children,
-  params,
 }: Readonly<{
   children: React.ReactNode;
-  params: Promise<{ locale: string }>;
 }>) {
-  const { locale } = await params;
+  const locale = "vi"; // Default locale, you can change this based on your needs
   const appData = await getMetadata({ locale });
   const headerNavItems = await getHeaderNavItems({ locale });
   const footerNavItems = await getFooterNavItems({ locale });

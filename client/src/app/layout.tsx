@@ -1,14 +1,14 @@
-import { Providers } from './provider';
+import { Providers } from "./provider";
 
-import { ScrollToTop } from '@/components/ScrollToTop';
+import { ScrollToTop } from "@/components/ScrollToTop";
 
-import '../styles/globals.css';
-import { getMessages } from 'next-intl/server';
-import { NextIntlClientProvider } from 'next-intl';
-import { API_ENDPOINT } from '@/lib/config';
-import { Suspense } from 'react';
+import "../styles/globals.css";
+import { getMessages } from "next-intl/server";
+import { NextIntlClientProvider } from "next-intl";
+import { API_ENDPOINT } from "@/lib/config";
+import { Suspense } from "react";
 
-const locales = ['vi', 'en'] as const;
+const locales = ["vi", "en"] as const;
 export async function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
@@ -18,21 +18,21 @@ export default async function AdminLayout({
   params,
 }: Readonly<{
   children: React.ReactNode;
-  params: Promise<{ locale: string }>;
+  params: Promise<{}>;
 }>) {
-  const { locale } = await params;
+  const locale = "vi"; // Replace with your desired locale or retrieve it from params if needed
   const messages = await getMessages({ locale });
 
   return (
-    <html lang={locale} className={'font-mono'} data-scroll-behavior='smooth'>
+    <html lang={locale} className={"font-mono"} data-scroll-behavior="smooth">
       <head>
-        <link rel='preconnect' href='https://fonts.googleapis.com' />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
-          rel='preconnect'
-          href='https://fonts.gstatic.com'
-          crossOrigin='anonymous'
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
         />
-        <link rel='preconnect' href={API_ENDPOINT} />
+        <link rel="preconnect" href={API_ENDPOINT} />
       </head>
       <body className={`antialiased flex min-h-svh flex-col`}>
         <NextIntlClientProvider locale={locale} messages={messages}>

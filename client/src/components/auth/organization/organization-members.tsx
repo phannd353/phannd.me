@@ -211,7 +211,6 @@ export function OrganizationMembers({
               aria-label={organizationLocalization.clear}
               className='size-4 rounded-sm text-muted-foreground'
               onClick={() => setRoleFilter('all')}
-              size='icon-xs'
               type='button'
               variant='outline'
             >

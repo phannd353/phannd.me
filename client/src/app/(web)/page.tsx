@@ -10,9 +10,9 @@ import { projects } from "@/content/landing/projects";
 export default async function HomeTimePage({
   params,
 }: {
-  params: Promise<{ locale: string }>;
+  params: Promise<{}>;
 }) {
-  const { locale } = await params;
+  const locale = "vi"; // Replace with your desired locale or retrieve it from params if needed
   const [t, metadata] = await Promise.all([
     getTranslations({ locale, namespace: "EventPage" }),
     getMetadata({ locale }),

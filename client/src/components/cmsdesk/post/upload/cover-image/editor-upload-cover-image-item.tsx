@@ -8,15 +8,15 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
-import { Button } from '@/components/ui/button';
-import { protectedEditorConfig } from '@/config/cmsdesk';
-import { shimmer, toBase64 } from '@/lib/utils';
-import { Loader2 as SpinnerIcon, TrashIcon } from 'lucide-react';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { Dispatch, FC, SetStateAction, useState } from 'react';
-import { toast } from 'sonner';
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import { protectedEditorConfig } from "@/config/cmsdesk";
+import { shimmer, toBase64 } from "@/utils";
+import { Loader2 as SpinnerIcon, TrashIcon } from "lucide-react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { Dispatch, FC, SetStateAction, useState } from "react";
+import { toast } from "sonner";
 
 type Dispatcher<S> = Dispatch<SetStateAction<S>>;
 
@@ -55,9 +55,9 @@ const EditorUploadCoverImageItem: FC<EditorUploadCoverImageItemProps> = ({
     <div className="col-span-full max-w-2xl">
       <Image
         src={
-          imageUrl || imageUrl !== ''
+          imageUrl || imageUrl !== ""
             ? imageUrl
-            : '/assets/image/not-found.webp'
+            : "/assets/image/not-found.webp"
         }
         className="mb-5 rounded-lg shadow-sm"
         alt="Cover image"

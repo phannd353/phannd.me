@@ -93,7 +93,6 @@ export function ApiKeys({
       </div>
 
       <Select
-        items={sortItems}
         value={sort}
         onValueChange={(value) => {
           setSort(value ?? "createdAt:desc")

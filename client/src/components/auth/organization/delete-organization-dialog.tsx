@@ -15,7 +15,6 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogMedia,
   AlertDialogTitle
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
@@ -67,9 +66,7 @@ export function DeleteOrganizationDialog({
       <AlertDialogContent>
         <form onSubmit={handleSubmit} className="flex flex-col gap-6">
           <AlertDialogHeader>
-            <AlertDialogMedia className="bg-destructive/10 text-destructive">
               <TriangleAlert />
-            </AlertDialogMedia>
 
             <AlertDialogTitle>
               {organizationLocalization.deleteOrganization}

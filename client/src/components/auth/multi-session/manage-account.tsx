@@ -85,7 +85,7 @@ export function ManageAccount({
           <DropdownMenu>
             <DropdownMenuTrigger
               className={cn(
-                buttonVariants({ variant: 'outline', size: 'icon-sm' }),
+                buttonVariants({ variant: 'outline',}),
                 'shrink-0',
               )}
               disabled={isBusy}

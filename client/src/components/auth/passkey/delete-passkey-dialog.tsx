@@ -12,7 +12,6 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogMedia,
   AlertDialogTitle
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
@@ -55,9 +54,7 @@ export function DeletePasskeyDialog({
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogMedia>
             <Fingerprint />
-          </AlertDialogMedia>
 
           <AlertDialogTitle>
             {passkeyLocalization.deletePasskeyTitle}

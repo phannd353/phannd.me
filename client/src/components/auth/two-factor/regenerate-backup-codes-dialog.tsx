@@ -14,7 +14,6 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogMedia,
   AlertDialogTitle
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
@@ -92,9 +91,7 @@ export function RegenerateBackupCodesDialog({
       <AlertDialogContent>
         <form onSubmit={handleSubmit} className="flex flex-col gap-6">
           <AlertDialogHeader>
-            <AlertDialogMedia>
               <KeyRound />
-            </AlertDialogMedia>
 
             <AlertDialogTitle>
               {twoFactorLocalization.backupCodes}

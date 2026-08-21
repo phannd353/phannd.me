@@ -138,7 +138,7 @@ export function OAuthSelectAccount({ className }: OAuthSelectAccountProps) {
       <CardHeader className="gap-4">
         <div className="flex items-center gap-3">
           {client ? (
-            <Avatar size="lg">
+            <Avatar >
               <AvatarImage
                 alt={clientName}
                 referrerPolicy="no-referrer"

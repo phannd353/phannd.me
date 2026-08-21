@@ -25,12 +25,12 @@ import { genMetadata } from "@/lib/metadata.lib";
 import { LinkedInLogoIcon } from "@radix-ui/react-icons";
 
 type Props = {
-  params: Promise<{ locale: string }>;
+  params: Promise<{}>;
 };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const path = "/lien-he";
   try {
-    const { locale } = await params;
+    const locale = "vi"; // Default locale, you can change this based on your needs
     const metadata = await getMetadata({ locale });
 
     const t = await getTranslations({ locale, namespace: "ContactPage" });
@@ -50,12 +50,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default async function ContactPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
+export default async function ContactPage({ params }: { params: Promise<{}> }) {
+  const locale = "vi";
   const appData = await getMetadata({ locale });
   const t = await getTranslations({ locale, namespace: "ContactPage" });
   const addressLines = [

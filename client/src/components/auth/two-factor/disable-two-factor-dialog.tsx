@@ -14,7 +14,6 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogMedia,
   AlertDialogTitle
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
@@ -68,9 +67,7 @@ export function DisableTwoFactorDialog({
       <AlertDialogContent>
         <form onSubmit={handleSubmit} className="flex flex-col gap-6">
           <AlertDialogHeader>
-            <AlertDialogMedia className="bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive">
               <ShieldAlert />
-            </AlertDialogMedia>
 
             <AlertDialogTitle>
               {twoFactorLocalization.disableTwoFactor}

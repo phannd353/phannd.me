@@ -1,5 +1,5 @@
-import { CLIENT_HOST } from '@/lib/config';
-import { getMetadata } from './metadata';
+import { CLIENT_HOST } from "@/lib/config";
+import { getMetadata } from "./metadata";
 
 function genJsonLd({
   metadata,
@@ -11,42 +11,32 @@ function genJsonLd({
   locale: string;
 }) {
   const websiteJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
+    "@context": "https://schema.org",
+    "@type": "WebSite",
     name: metadata.title,
     url: `${CLIENT_HOST}/`,
     description: metadata.description,
-    inLanguage: locale === 'vi' ? 'vi-VN' : 'en-US',
+    inLanguage: locale === "vi" ? "vi-VN" : "en-US",
     potentialAction: {
-      '@type': 'SearchAction',
+      "@type": "SearchAction",
       target: {
-        '@type': 'EntryPoint',
+        "@type": "EntryPoint",
         urlTemplate: `${CLIENT_HOST}/su-kien?q={search_term_string}`,
       },
-      'query-input': 'required name=search_term_string',
+      "query-input": "required name=search_term_string",
     },
   };
 
-  const organizationJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name: metadata.title,
-    url: `${CLIENT_HOST}/`,
-    logo: `${CLIENT_HOST}${metadata.logo}`,
-    email: metadata.email,
-    sameAs: [metadata.social.facebook],
-  };
-
   const itemListJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'ItemList',
+    "@context": "https://schema.org",
+    "@type": "ItemList",
     name:
-      locale === 'vi'
-        ? 'Các giai đoạn lịch sử quan trọng của Việt Nam'
-        : 'Important periods in Vietnamese history',
+      locale === "vi"
+        ? "Các giai đoạn lịch sử quan trọng của Việt Nam"
+        : "Important periods in Vietnamese history",
     numberOfItems: importantEvents.length,
     itemListElement: importantEvents.map((event, index) => ({
-      '@type': 'ListItem',
+      "@type": "ListItem",
       position: index + 1,
       name: event.name,
       description: event.description,
@@ -54,11 +44,11 @@ function genJsonLd({
   };
 
   const breadcrumbJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
     itemListElement: [
       {
-        '@type': 'ListItem',
+        "@type": "ListItem",
         position: 1,
         name: metadata.title,
         item: `${CLIENT_HOST}/`,
@@ -68,7 +58,6 @@ function genJsonLd({
 
   return {
     websiteJsonLd,
-    organizationJsonLd,
     itemListJsonLd,
     breadcrumbJsonLd,
   };

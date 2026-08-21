@@ -16,7 +16,6 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogMedia,
   AlertDialogTitle
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
@@ -75,9 +74,7 @@ export function RemoveAuthorizationDialog({
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogMedia>
             <ShieldOff />
-          </AlertDialogMedia>
 
           <AlertDialogTitle>
             {oauthLocalization.removeAuthorizationTitle}

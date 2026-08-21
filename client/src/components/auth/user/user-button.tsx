@@ -78,7 +78,6 @@ function renderUserLink(
   return (
     <DropdownMenuItem
       key={fallbackKey}
-      variant={variant}
       onClick={() => navigate({ to: href })}
     >
       {icon}

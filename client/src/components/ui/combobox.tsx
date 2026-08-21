@@ -71,7 +71,6 @@ function ComboboxInput({
           <InputGroupButton
             size='icon-xs'
             variant='outline'
-            render={<ComboboxTrigger />}
             data-slot='input-group-button'
             className='group-has-data-[slot=combobox-clear]/input-group:hidden data-pressed:bg-transparent'
             disabled={disabled}
@@ -252,7 +251,7 @@ function ComboboxChip({
       {children}
       {showRemove && (
         <ComboboxPrimitive.ChipRemove
-          render={<Button variant='outline' size='icon-xs' />}
+          render={<Button variant='outline' />}
           className='-ml-1 opacity-50 hover:opacity-100'
           data-slot='combobox-chip-remove'
         >
