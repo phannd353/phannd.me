@@ -1,0 +1,3 @@
+server/prisma/generated/prisma/
+server/prisma/migrations/
+client/.env

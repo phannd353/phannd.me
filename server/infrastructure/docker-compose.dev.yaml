@@ -1,0 +1,24 @@
+services:
+  phannd.me-pgdb:
+    image: postgres:alpine
+    container_name: phannd.me-pgdb
+    environment:
+      POSTGRES_USER: phannd
+      POSTGRES_PASSWORD: secure_password
+      POSTGRES_DB: phannd
+    ports:
+      - '5432:5432'
+    volumes:
+      - phannd.me-pgdb-data:/var/lib/postgresql
+
+  phannd.me-rdb:
+    image: redis:alpine
+    container_name: phannd.me-rdb
+    ports:
+      - '6379:6379'
+    volumes:
+      - phannd.me-rdb-data:/data
+
+volumes:
+  phannd.me-pgdb-data:
+  phannd.me-rdb-data:
