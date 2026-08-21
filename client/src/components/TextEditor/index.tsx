@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import { useEffect, useRef, useState } from 'react';
-import type EditorJS from '@editorjs/editorjs';
+import { useEffect, useRef, useState } from "react";
+import type EditorJS from "@editorjs/editorjs";
 
-import './index.css';
-import { FoldHorizontal } from 'lucide-react';
-import { tryParseJSONObject } from '@/helper/renderer.helper';
+import "./index.css";
+import { FoldHorizontal } from "lucide-react";
+import { tryParseJSONObject } from "@/helper/renderer.helper";
 
 export default function TextEditor({
   value,
   onChange,
-  imageFolderName = 'uploads',
+  imageFolderName = "uploads",
 }: {
   value: any;
   onChange: (...args: any[]) => any;
@@ -24,26 +24,27 @@ export default function TextEditor({
       if (!isReady.current) {
         // Dynamically import EditorJS and plugins only on client side
         await Promise.all([
-          import('@editorjs/editorjs'),
-          import('@editorjs/underline'),
-          import('@editorjs/paragraph'),
-          import('@editorjs/delimiter'),
-          import('@editorjs/warning'),
-          import('@editorjs/header'),
-          import('@editorjs/table'),
-          import('@editorjs/image'),
-          import('@editorjs/quote'),
-          import('@editorjs/list'),
+          import("@editorjs/editorjs"),
+          import("@editorjs/underline"),
+          import("@editorjs/paragraph"),
+          import("@editorjs/delimiter"),
+          import("@editorjs/warning"),
+          import("@editorjs/header"),
+          import("@editorjs/table"),
+          import("@editorjs/image"),
+          import("@editorjs/quote"),
+          import("@editorjs/list"),
           // @ts-expect-error - no types available
-          import('@editorjs/raw'),
+          import("@editorjs/raw"),
           // @ts-expect-error - no types available
-          import('@editorjs/link'),
+          import("@editorjs/link"),
           // @ts-expect-error - no types available
-          import('@editorjs/embed'),
+          import("@editorjs/embed"),
           // @ts-expect-error - no types available
-          import('@editorjs/marker'),
+          import("@editorjs/marker"),
           // @ts-expect-error - no types available
-          import('editorjs-text-alignment-blocktune'),
+          import("editorjs-text-alignment-blocktune"),
+          import("@editorjs/code"),
         ]).then(
           ([
             { default: EditorJS },
@@ -61,6 +62,7 @@ export default function TextEditor({
             { default: Embed },
             { default: Marker },
             { default: AlignmentTuneTool },
+            { default: Code },
           ]) => {
             const tools = {
               list: {
@@ -69,20 +71,20 @@ export default function TextEditor({
               },
               header: {
                 class: Header,
-                tunes: ['textAlign'],
+                tunes: ["textAlign"],
               },
               paragraph: {
                 class: Paragraph,
-                tunes: ['textAlign'],
+                tunes: ["textAlign"],
               },
               image: {
                 class: Image,
                 config: {
                   endpoints: {
-                    byFile: '/api/images/upload',
-                    byUrl: '/api/images/fetchUrl',
+                    byFile: "/api/images/upload",
+                    byUrl: "/api/images/fetchUrl",
                   },
-                  field: 'image',
+                  field: "image",
                   additionalRequestData: {
                     folder: imageFolderName,
                   },
@@ -91,7 +93,7 @@ export default function TextEditor({
               linkTool: {
                 class: Link,
                 config: {
-                  endpoint: '/api/fetchUrl',
+                  endpoint: "/api/fetchUrl",
                 },
               },
               html: Raw,
@@ -109,10 +111,14 @@ export default function TextEditor({
               warning: Warning,
               underline: Underline,
               delimiter: Delimiter,
+              code: {
+                class: Code,
+                inlineToolbar: true,
+              },
               textAlign: {
                 class: AlignmentTuneTool,
                 config: {
-                  default: 'left',
+                  default: "left",
                 },
               },
             };
@@ -120,13 +126,13 @@ export default function TextEditor({
             // prevent initializing editor more than once
             if (!isReady.current) {
               const editor = new EditorJS({
-                holder: 'editorjs',
+                holder: "editorjs",
                 // @ts-expect-error - no types available
                 tools,
                 data: tryParseJSONObject(value) || {
                   blocks: [
                     {
-                      type: 'paragraph',
+                      type: "paragraph",
                       data: {
                         text: value,
                       },
@@ -155,5 +161,5 @@ export default function TextEditor({
     };
   }, []);
 
-  return <div id='editorjs' className='border rounded mt-2'></div>;
+  return <div id="editorjs" className="border rounded mt-2"></div>;
 }

@@ -147,7 +147,7 @@ export const Navbar = ({
             </NavigationMenuItem>
 
             <NavigationMenuItem className="hidden md:flex gap-2">
-              {!session && (
+              {/*{!session && (
                 <>
                   <Button>
                     <Link href="/auth/sign-up">{t("Auth.sign-up")}</Link>
@@ -157,7 +157,7 @@ export const Navbar = ({
                     <Link href="/auth/sign-in">{t("Auth.sign-in")}</Link>
                   </Button>
                 </>
-              )}
+              )}*/}
 
               {/* <LanguageSwitcher /> */}
 

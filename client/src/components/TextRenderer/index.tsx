@@ -1,17 +1,18 @@
-'use client';
+"use client";
 
-import './index.css';
+import "./index.css";
 
-import Heading from './Heading';
-import Paragraph from './Paragraph';
-import Image from './Image';
-import List from './List';
-import LinkTool from './LinkTool';
-import { useEffect } from 'react';
-import Quote from './Quote';
-import Delimiter from './Delimiter';
-import Table from './Table';
-import { tryParseJSONObject } from '@/helper/renderer.helper';
+import Heading from "./Heading";
+import Paragraph from "./Paragraph";
+import Image from "./Image";
+import List from "./List";
+import LinkTool from "./LinkTool";
+import { useEffect } from "react";
+import Quote from "./Quote";
+import Delimiter from "./Delimiter";
+import Table from "./Table";
+import { tryParseJSONObject } from "@/helper/renderer.helper";
+import Code from "./Code";
 
 export default function TextRenderer({
   content,
@@ -25,9 +26,9 @@ export default function TextRenderer({
   const obj = tryParseJSONObject(content || '{"blocks": []}');
 
   useEffect(() => {
-    document.querySelectorAll('.edjs-paragraph a').forEach((a) => {
-      a.setAttribute('target', '_blank');
-      a.setAttribute('rel', 'noreferrer noopener');
+    document.querySelectorAll(".edjs-paragraph a").forEach((a) => {
+      a.setAttribute("target", "_blank");
+      a.setAttribute("rel", "noreferrer noopener");
     });
   });
 
@@ -37,12 +38,12 @@ export default function TextRenderer({
       style={
         truncate
           ? {
-              display: '-webkit-box',
-              textOverflow: 'ellipsis',
+              display: "-webkit-box",
+              textOverflow: "ellipsis",
               WebkitLineClamp: maxLines,
-              WebkitBoxOrient: 'vertical',
-              overflowWrap: 'normal',
-              overflow: 'hidden',
+              WebkitBoxOrient: "vertical",
+              overflowWrap: "normal",
+              overflow: "hidden",
             }
           : {}
       }
@@ -69,7 +70,7 @@ const components = {
   list: List,
   linkTool: LinkTool,
   quote: Quote,
-  // code: Code,
+  code: Code,
   delimiter: Delimiter,
   table: Table,
   // warning: Warning,
