@@ -35,7 +35,7 @@ export class BetterAuthGuard implements CanActivate {
   constructor(
     private reflector: Reflector,
     private configService: ConfigService<Config>,
-  ) { }
+  ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     // Check if route is marked as public
@@ -53,9 +53,8 @@ export class BetterAuthGuard implements CanActivate {
     try {
       // Extract JWT token from Authorization header or cookie
       const cookies = this.parseCookies(request.headers.cookie || '');
-      let token = cookies.get(
-        `${this.configService.get('betterAuth.cookiePrefix')}.session_data`,
-      );
+      const sessionDataCookieName = `__Secure-${this.configService.get('betterAuth.cookiePrefix')}.session_data`;
+      let token = cookies.get(sessionDataCookieName);
 
       console.log('Extracted token:', token);
 
@@ -65,9 +64,7 @@ export class BetterAuthGuard implements CanActivate {
         const tokenParts: string[] = [];
         let index = 0;
         while (true) {
-          const part = cookies.get(
-            `${this.configService.get('betterAuth.cookiePrefix')}.session_data.${index}`,
-          );
+          const part = cookies.get(`${sessionDataCookieName}.${index}`);
           if (!part) {
             break;
           }
@@ -77,8 +74,7 @@ export class BetterAuthGuard implements CanActivate {
 
         if (tokenParts.length > 0) {
           token = tokenParts.join('');
-        }
-        else {
+        } else {
           throw new UnauthorizedException('No authentication token found');
         }
       }
@@ -104,7 +100,9 @@ export class BetterAuthGuard implements CanActivate {
       if (error instanceof jwt.TokenExpiredError) {
         throw new UnauthorizedException('Token expired');
       }
-      throw new UnauthorizedException((error as Error)?.message || 'Authentication failed');
+      throw new UnauthorizedException(
+        (error as Error)?.message || 'Authentication failed',
+      );
     }
   }
 
