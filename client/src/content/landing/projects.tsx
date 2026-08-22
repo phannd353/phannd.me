@@ -1,6 +1,17 @@
 export const projects = [
   {
     title: "Iconic Talents",
+    techstack: [
+      "NodeJS",
+      "PostgreSQL",
+      "Remix.run",
+      "TypeScript",
+      "Tailwind CSS",
+      "shadcn/ui",
+      "Docker",
+      "Nginx",
+      "Linux",
+    ],
     description: (
       <ul className="list-inside list-disc">
         <li>
@@ -33,10 +44,22 @@ export const projects = [
       </ul>
     ),
     image: "/assets/image/home/logo-iconic-talents.png",
-    link: "https://github.com/iconic-inc/iconic-erp",
+    repo: "https://github.com/iconic-inc/iconic-erp",
   },
   {
     title: "NienSuViet - Vietnamese History",
+    techstack: [
+      "Go",
+      "NestJS",
+      "PostgreSQL",
+      "RabbitMQ",
+      "gRPC",
+      "Redis",
+      "Next.js",
+      "Docker",
+      "Nginx",
+      "Linux",
+    ],
     description: (
       <>
         <p>
@@ -84,10 +107,12 @@ export const projects = [
       </>
     ),
     image: "/assets/image/home/logo-nsv.webp",
-    link: "https://niensuviet.app",
+    demo: "https://niensuviet.app",
+    repo: "https://github.com/phannd353/nien-su-viet",
   },
   {
     title: "Blockchain-based Reward System (Scientific research)",
+    techstack: ["NodeJS", "ExpressJS", "Ethers.js", "Solidity", "ERC-777"],
     description: (
       <>
         <p>
@@ -112,12 +137,13 @@ export const projects = [
       </>
     ),
     image: "/assets/image/home/project-reward-system.png",
-    link: "https://github.com/PhanhotboY/Blockchain-Based-Reward-System",
+    repo: "https://github.com/PhanhotboY/Blockchain-Based-Reward-System",
   },
   {
-    link: "https://github.com/PhanhotboY/Deep-Reinforcement-Learning-for-Automated-Stock-Trading",
+    repo: "https://github.com/PhanhotboY/Deep-Reinforcement-Learning-for-Automated-Stock-Trading",
     title: "Deep Reinforcement Learning for Automated Stock Trading",
     image: "/assets/image/home/project-stock-trading.png",
+    techstack: ["Python", "PyTorch", "Pandas", "NumPy", "Jupyter Notebook"],
     description: (
       <>
         <p>
@@ -141,9 +167,10 @@ export const projects = [
     ),
   },
   {
-    link: "https://github.com/PhanhotboY/profile-card",
+    repo: "https://github.com/PhanhotboY/profile-card",
     title: "Github Profile Card",
     image: "/assets/image/home/project-github-profile-card.png",
+    techstack: ["HTML", "CSS", "JavaScript"],
     description: (
       <>
         <p>
@@ -159,9 +186,10 @@ export const projects = [
     ),
   },
   {
-    link: "https://github.com/PhanhotboY/new-vn-provinces",
+    repo: "https://github.com/PhanhotboY/new-vn-provinces",
     title: "New Vietnam Provinces",
     image: "/assets/image/home/project-new-vn-provinces.png",
+    techstack: ["JavaScript", "TypeScript", "NodeJS"],
     description: (
       <p>
         A high-performance JavaScript/TypeScript library that provides a

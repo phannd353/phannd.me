@@ -65,7 +65,7 @@ export const Navbar = ({
   const logoToUse = theme === "dark" ? appLogoDark : appLogo;
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-white dark:border-b-slate-700 dark:bg-background">
+    <header className="sticky top-0 z-40 w-full bg-white dark:border-b-slate-700 dark:bg-background overflow-hidden">
       <NavigationMenu className="mx-auto">
         <NavigationMenuList className="h-14 w-screen">
           <div className="container flex justify-start items-center px-4">

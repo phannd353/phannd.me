@@ -8,15 +8,15 @@ export default function AboutSection() {
       id="about"
     >
       <div className="flex h-full w-full place-content-center gap-6 max-xl:place-items-center max-lg:flex-col">
-        <div className="flex flex-col place-content-center">
-          <div className="flex flex-wrap text-7xl font-semibold uppercase leading-[85px] max-lg:text-4xl max-md:leading-snug">
+        <div className="flex flex-col place-content-center gap-4">
+          <div className="flex flex-wrap text-3xl 2xl:text-6xl font-semibold uppercase leading-[85px] md:text-4xl max-md:leading-snug justify-center lg:justify-start gap-4">
             <span className="reveal-hero-text bg-main p-1 px-6">
               Nguyen Duy Phan
             </span>
             <br />
             <span className="reveal-hero-text"> Backend Developer</span>
           </div>
-          <div className="reveal-hero-text mt-2 max-w-[650px] p-2 text-justify max-lg:max-w-full">
+          <div className="reveal-hero-text max-w-[750px] p-2 text-justify max-lg:max-w-full">
             I'm a Backend Developer with 1 year of experience, a curious
             technologist who is passionate about learning new things and writing
             clean, secure code. I can learn and adapt quickly. I wish to work in
@@ -28,6 +28,7 @@ export default function AboutSection() {
             label="Get in touch"
             target="_blank"
             rel="noopener noreferrer"
+            className="self-center lg:self-start"
           />
         </div>
 

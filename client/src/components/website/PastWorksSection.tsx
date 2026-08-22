@@ -3,12 +3,16 @@ import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
 import Link from "next/link";
 import { ReactNode } from "react";
 import { Button } from "../ui/button";
+import { GitHub } from "@better-auth-ui/react";
+import { ArrowUpRight, Badge } from "lucide-react";
 
 interface Project {
   title: string;
   description: ReactNode;
   image: string;
-  link?: string;
+  demo?: string;
+  repo?: string;
+  techstack: string[];
 }
 
 export default function PastWorksSection({
@@ -23,7 +27,7 @@ export default function PastWorksSection({
       className="relative flex w-full max-w-[100vw] flex-col place-items-center"
       id="work"
     >
-      <h3 className="reveal-up text-6xl font-medium max-lg:text-3xl">
+      <h3 className="reveal-up text-center text-4xl font-medium sm:text-5xl lg:text-6xl">
         Past works
       </h3>
 
@@ -51,19 +55,38 @@ export default function PastWorksSection({
                 {project.title}
               </h3>
               <div className="">{project.description}</div>
+
+              <div className="flex flex-wrap gap-2">
+                {project.techstack.map((tech) => (
+                  <span
+                    key={tech}
+                    className="px-2 sm:px-3 py-0.5 sm:py-1 text-xs sm:text-sm font-semibold bg-main"
+                    style={{
+                      border: "2px solid black",
+                    }}
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
             </CardContent>
 
-            {project.link && (
-              <CardFooter>
-                Link:
-                <Link
-                  href={project.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline text-main"
-                >
-                  {project.link}
-                </Link>
+            {(project.repo || project.demo) && (
+              <CardFooter className="flex-col gap-3 sm:flex-row sm:gap-4">
+                {project.repo && (
+                  <Button asChild variant="outline" className="w-full">
+                    <Link href={project.repo} target="_blank">
+                      <GitHub className="mr-2 h-4 w-4" /> Code
+                    </Link>
+                  </Button>
+                )}
+                {project.demo && (
+                  <Button asChild variant="outline" className="w-full">
+                    <Link href={project.demo} target="_blank">
+                      <ArrowUpRight className="mr-2 h-4 w-4" /> Demo
+                    </Link>
+                  </Button>
+                )}
               </CardFooter>
             )}
           </Card>

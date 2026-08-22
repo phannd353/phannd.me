@@ -6,6 +6,7 @@ import PastWorksSection from "@/components/website/PastWorksSection";
 import EducationSection from "@/components/website/EducationSection";
 import TechStackSection from "@/components/website/TechStackSection";
 import { projects } from "@/content/landing/projects";
+import RecentPostsSection from "@/components/website/RecentPostsSection";
 
 export default async function HomeTimePage({
   params,
@@ -66,7 +67,7 @@ export default async function HomeTimePage({
       />
 
       <main
-        className="min-h-screen container space-y-8 lg:space-y-24 py-8 lg:py-24"
+        className="container min-h-screen space-y-12 px-4 py-8 sm:px-6 md:space-y-16 md:px-8 lg:space-y-24 lg:px-12 lg:py-24 xl:px-16"
         itemScope
         itemType="https://schema.org/WebPage"
       >
@@ -87,6 +88,9 @@ export default async function HomeTimePage({
 
         {/* Tech Stack */}
         <TechStackSection techStacks={techStacks} />
+
+        {/* Recent Posts*/}
+        <RecentPostsSection />
       </main>
     </>
   );
