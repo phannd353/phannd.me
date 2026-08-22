@@ -27,9 +27,9 @@ export default function PastWorksSection({
       className="relative flex w-full max-w-[100vw] flex-col place-items-center"
       id="work"
     >
-      <h3 className="reveal-up text-center text-4xl font-medium sm:text-5xl lg:text-6xl">
+      <h2 className="reveal-up text-center text-4xl font-medium sm:text-5xl lg:text-6xl">
         Past works
-      </h3>
+      </h2>
 
       <div className="reveal-up my-4 border-b border-foreground w-full"></div>
 

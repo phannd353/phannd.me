@@ -3,11 +3,9 @@ import { getMetadata } from "./metadata";
 
 function genJsonLd({
   metadata,
-  importantEvents,
   locale,
 }: {
   metadata: Awaited<ReturnType<typeof getMetadata>>;
-  importantEvents: any[];
   locale: string;
 }) {
   const websiteJsonLd = {
@@ -21,26 +19,10 @@ function genJsonLd({
       "@type": "SearchAction",
       target: {
         "@type": "EntryPoint",
-        urlTemplate: `${CLIENT_HOST}/su-kien?q={search_term_string}`,
+        urlTemplate: `${CLIENT_HOST}/blog?q={search_term_string}`,
       },
       "query-input": "required name=search_term_string",
     },
-  };
-
-  const itemListJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    name:
-      locale === "vi"
-        ? "Các giai đoạn lịch sử quan trọng của Việt Nam"
-        : "Important periods in Vietnamese history",
-    numberOfItems: importantEvents.length,
-    itemListElement: importantEvents.map((event, index) => ({
-      "@type": "ListItem",
-      position: index + 1,
-      name: event.name,
-      description: event.description,
-    })),
   };
 
   const breadcrumbJsonLd = {
@@ -58,7 +40,6 @@ function genJsonLd({
 
   return {
     websiteJsonLd,
-    itemListJsonLd,
     breadcrumbJsonLd,
   };
 }

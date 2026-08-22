@@ -1,3 +1,4 @@
+import { CLIENT_HOST } from "@/lib/config";
 import { getTranslations } from "next-intl/server";
 
 export async function getMetadata({ locale }: { locale: string }) {
@@ -6,7 +7,7 @@ export async function getMetadata({ locale }: { locale: string }) {
   return {
     title: t("title"),
     description: t("description"),
-    logo: t("logo"),
+    logo: CLIENT_HOST + t("logo"),
     logoDark: t("logoDark"),
     social: {
       linkedin: "https://linkedin.com/in/phannd",

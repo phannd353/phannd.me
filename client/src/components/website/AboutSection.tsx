@@ -9,13 +9,13 @@ export default function AboutSection() {
     >
       <div className="flex h-full w-full place-content-center gap-6 max-xl:place-items-center max-lg:flex-col">
         <div className="flex flex-col place-content-center gap-4">
-          <div className="flex flex-wrap text-3xl 2xl:text-6xl font-semibold uppercase leading-[85px] md:text-4xl max-md:leading-snug justify-center lg:justify-start gap-4">
+          <h1 className="flex flex-wrap text-3xl 2xl:text-6xl font-semibold uppercase leading-[85px] md:text-4xl max-md:leading-snug justify-center lg:justify-start gap-4">
             <span className="reveal-hero-text bg-main p-1 px-6">
               Nguyen Duy Phan
             </span>
             <br />
             <span className="reveal-hero-text"> Backend Developer</span>
-          </div>
+          </h1>
           <div className="reveal-hero-text max-w-[750px] p-2 text-justify max-lg:max-w-full">
             I'm a Backend Developer with 1 year of experience, a curious
             technologist who is passionate about learning new things and writing

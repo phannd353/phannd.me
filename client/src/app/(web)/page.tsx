@@ -30,7 +30,7 @@ export default async function HomeTimePage({
       "@type": "SearchAction",
       target: {
         "@type": "EntryPoint",
-        urlTemplate: `${CLIENT_HOST}/${locale}/su-kien?q={search_term_string}`,
+        urlTemplate: `${CLIENT_HOST}/blog?q={search_term_string}`,
       },
       "query-input": "required name=search_term_string",
     },

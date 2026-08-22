@@ -159,7 +159,7 @@ export default async function ContactPage({ params }: { params: Promise<{}> }) {
                       href={appData?.social?.linkedin}
                       target="_blank"
                       rel="noopener noreferrer"
-                      aria-label={t("social.aria.linkdin")}
+                      aria-label={t("social.aria.linkedin")}
                     >
                       <LinkedInLogoIcon className="h-5 w-5" />
                     </a>

@@ -1,5 +1,5 @@
-import { Metadata } from 'next';
-import { CLIENT_HOST } from './config';
+import { Metadata } from "next";
+import { CLIENT_HOST } from "./config";
 
 interface GenMetadataParams {
   title: string;
@@ -15,11 +15,11 @@ function genMetadata({
   description,
   locale,
   logo,
-  path = '/',
+  path = "/",
   keywords,
   images = [],
 }: GenMetadataParams): Metadata {
-  const canonicalPath = path === '/' ? '' : path;
+  const canonicalPath = path === "/" ? "" : path;
   if (!images.length && logo) {
     images = [logo];
   }
@@ -31,14 +31,14 @@ function genMetadata({
     openGraph: {
       title,
       description,
-      type: 'website',
-      locale: locale === 'vi' ? 'vi_VN' : 'en_US',
+      type: "website",
+      locale: locale === "vi" ? "vi_VN" : "en_US",
       siteName: title,
       images,
-      alternateLocale: locale === 'vi' ? ['en_US'] : ['vi_VN'],
+      alternateLocale: locale === "vi" ? ["en_US"] : ["vi_VN"],
     },
     twitter: {
-      card: 'summary_large_image',
+      card: "summary_large_image",
       title,
       description,
       images,
@@ -46,9 +46,8 @@ function genMetadata({
     alternates: {
       canonical: `${CLIENT_HOST}/${canonicalPath}`,
       languages: {
-        vi: `${CLIENT_HOST}/vi${canonicalPath}`,
-        en: `${CLIENT_HOST}/en${canonicalPath}`,
-        'x-default': `${CLIENT_HOST}/vi${canonicalPath}`,
+        vi: `${CLIENT_HOST}/${canonicalPath}`,
+        "x-default": `${CLIENT_HOST}/${canonicalPath}`,
       },
     },
     robots: {
@@ -59,9 +58,9 @@ function genMetadata({
         index: true,
         follow: true,
         noimageindex: false,
-        'max-video-preview': -1,
-        'max-image-preview': 'large',
-        'max-snippet': -1,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
       },
     },
   };

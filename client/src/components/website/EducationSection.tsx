@@ -26,9 +26,9 @@ export default function EducationSection({
         className="relative flex w-full flex-col justify-around gap-6 bg-secondary-background p-4 sm:p-6 lg:flex-row lg:gap-8 lg:p-8"
       >
         <div className="reveal-up h-full w-full place-content-center lg:sticky lg:top-[20%] lg:w-3/5">
-          <h3 className="text-center text-3xl font-medium sm:text-4xl lg:text-6xl">
+          <h2 className="text-center text-3xl font-medium sm:text-4xl lg:text-6xl">
             Education & Certifications
-          </h3>
+          </h2>
         </div>
 
         <div className="reveal-up flex w-full flex-col place-items-center gap-4 lg:w-2/5">

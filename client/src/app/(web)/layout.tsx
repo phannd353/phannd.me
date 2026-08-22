@@ -23,37 +23,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const description = metadata.description;
     const logo = metadata.logo;
 
-    const keywords =
-      locale === "vi"
-        ? [
-            "lịch sử Việt Nam",
-            "sự kiện lịch sử",
-            "niên sử Việt",
-            "timeline lịch sử",
-            "nhân vật lịch sử",
-            "triều đại Việt Nam",
-            "văn hóa Việt Nam",
-          ]
-        : [
-            "Vietnamese history",
-            "historical events",
-            "Vietnam timeline",
-            "historical figures",
-            "Vietnamese dynasties",
-            "Vietnam culture",
-          ];
-
     return genMetadata({
       title,
       description,
       locale,
       logo,
       path: "/",
-      keywords,
+      keywords: ["portfolio", "personal website"],
     });
   } catch (error) {
-    const title = "Nien Su Viet";
-    const description = "Vietnam history timeline website";
+    console.error("Error generating metadata:", error);
+    const title = "Phannd.me - Personal Portfolio Website";
+    const description = "Personal portfolio website of Nguyen Duy Phan";
 
     return genMetadata({ title, description, locale: "vi", path: "/" });
   }
