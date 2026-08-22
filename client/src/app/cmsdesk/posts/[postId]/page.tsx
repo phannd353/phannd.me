@@ -41,7 +41,7 @@ export default async function PostEditorPage({ params }: PostEditorPageProps) {
         </p>
       </div>
       <Separator className="mb-5" />
-      <Editor post={post} imageFolderName={`posts/${resolvedParams.postId}`} />
+      <Editor post={post} imageFolderName={"phannd.me"} />
     </div>
   );
 }
