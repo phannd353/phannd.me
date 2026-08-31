@@ -1,12 +1,14 @@
-import type { MetadataRoute } from 'next';
+import type { MetadataRoute } from "next";
+import { join } from "node:path";
+import { CLIENT_HOST } from "@/lib/config";
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
-      userAgent: '*',
-      allow: '/',
-      disallow: ['/admin', '/auth', '/api', '/cmsdesk'],
+      userAgent: "*",
+      allow: "/",
+      disallow: ["/admin", "/auth", "/api", "/cmsdesk"],
     },
-    sitemap: process.env.NEXT_PUBLIC_CLIENT_HOST + '/sitemap.xml',
+    sitemap: join(CLIENT_HOST, "/sitemap.xml"),
   };
 }

@@ -1,6 +1,7 @@
 import { CLIENT_HOST } from "@/lib/config";
 import { getPublicPosts } from "@/services/post.service";
 import { MetadataRoute } from "next";
+import { join } from "node:path";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const paths = ["", "/projects", "/lien-he", "/blog"];
@@ -50,7 +51,7 @@ const genSitemap = ({
   locale: string;
   path: string;
 }) => ({
-  url: `${CLIENT_HOST}/${path}`,
+  url: join(CLIENT_HOST, path),
   lastModified,
   changeFrequency,
   priority,

@@ -1,4 +1,3 @@
-import { CLIENT_HOST } from "@/lib/config";
 import { getTranslations } from "next-intl/server";
 
 export async function getMetadata({ locale }: { locale: string }) {

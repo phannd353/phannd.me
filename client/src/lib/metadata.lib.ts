@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { join } from "node:path";
 import { CLIENT_HOST } from "./config";
 
 interface GenMetadataParams {
@@ -45,10 +46,10 @@ function genMetadata({
       images,
     },
     alternates: {
-      canonical: `${CLIENT_HOST}/${canonicalPath}`,
+      canonical: join(CLIENT_HOST, canonicalPath),
       languages: {
-        vi: `${CLIENT_HOST}/${canonicalPath}`,
-        "x-default": `${CLIENT_HOST}/${canonicalPath}`,
+        vi: join(CLIENT_HOST, canonicalPath),
+        "x-default": join(CLIENT_HOST, canonicalPath),
       },
     },
     robots: {
