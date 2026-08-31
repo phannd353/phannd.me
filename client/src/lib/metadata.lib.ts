@@ -27,6 +27,7 @@ function genMetadata({
   return {
     title,
     description,
+    metadataBase: new URL(CLIENT_HOST),
     ...(keywords && { keywords }),
     openGraph: {
       title,

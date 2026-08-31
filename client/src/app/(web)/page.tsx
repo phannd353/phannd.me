@@ -7,6 +7,7 @@ import EducationSection from "@/components/website/EducationSection";
 import TechStackSection from "@/components/website/TechStackSection";
 import { projects } from "@/content/landing/projects";
 import RecentPostsSection from "@/components/website/RecentPostsSection";
+import Image from "next/image";
 
 export default async function HomeTimePage({
   params,
@@ -101,10 +102,12 @@ const certifications = [
     description: (
       <>
         Bachelor of <b>Information Technology</b>
-        <img
+        <Image
           src="/assets/image/home/logo-uit.svg"
           alt="toeic"
           className="w-1/2 rounded-lg mx-auto mt-4"
+          width={200}
+          height={100}
         />
       </>
     ),
@@ -127,10 +130,12 @@ const certifications = [
         <p className="text-lg">
           Score: <b>850</b>/990
         </p>
-        <img
+        <Image
           src="/assets/image/home/toeic-lr.jpeg"
           alt="toeic"
           className="w-full rounded-lg"
+          width={530}
+          height={350}
         />
       </>
     ),
@@ -144,10 +149,12 @@ const certifications = [
         <p className="text-lg">
           Score: <b>250</b>/400
         </p>
-        <img
+        <Image
           src="/assets/image/home/toeic-sw.jpeg"
           alt="toeic"
           className="w-full rounded-lg"
+          width={530}
+          height={350}
         />
       </>
     ),
@@ -157,10 +164,12 @@ const certifications = [
     startDate: "March 2023",
     endDate: "March 2023",
     description: (
-      <img
+      <Image
         src="/assets/image/home/udemy-node-advanced-concepts.jpg"
         alt="toeic"
         className="w-full rounded-lg"
+        width={530}
+        height={350}
       />
     ),
   },
@@ -169,10 +178,12 @@ const certifications = [
     startDate: "July 2022",
     endDate: "July 2022",
     description: (
-      <img
+      <Image
         src="/assets/image/home/f8-node.png"
         alt="toeic"
         className="w-full rounded-lg"
+        width={530}
+        height={350}
       />
     ),
   },
@@ -181,10 +192,12 @@ const certifications = [
     startDate: "February 2023",
     endDate: "February 2023",
     description: (
-      <img
+      <Image
         src="/assets/image/home/f8-ubuntu.png"
         alt="toeic"
         className="w-full rounded-lg"
+        width={530}
+        height={350}
       />
     ),
   },

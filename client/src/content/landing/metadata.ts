@@ -7,7 +7,7 @@ export async function getMetadata({ locale }: { locale: string }) {
   return {
     title: t("title"),
     description: t("description"),
-    logo: CLIENT_HOST + t("logo"),
+    logo: t("logo"),
     logoDark: t("logoDark"),
     social: {
       linkedin: "https://linkedin.com/in/phannd",
