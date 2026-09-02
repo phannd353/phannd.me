@@ -1,165 +1,253 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import type EditorJS from "@editorjs/editorjs";
-
+import React from "react";
+import { keymap, EditorView, BlockWrapper } from "@codemirror/view";
+import { toggleLineComment } from "@codemirror/commands";
+import {
+  AdmonitionDirectiveDescriptor,
+  MDXEditor,
+  MDXEditorMethods,
+  headingsPlugin,
+  listsPlugin,
+  linkPlugin,
+  quotePlugin,
+  markdownShortcutPlugin,
+  thematicBreakPlugin,
+  toolbarPlugin,
+  BlockTypeSelect,
+  BoldItalicUnderlineToggles,
+  ChangeAdmonitionType,
+  ChangeCodeMirrorLanguage,
+  CodeToggle,
+  CreateLink,
+  InsertAdmonition,
+  InsertCodeBlock,
+  InsertImage,
+  InsertTable,
+  InsertThematicBreak,
+  ListsToggle,
+  UndoRedo,
+  directivesPlugin,
+  codeMirrorPlugin,
+  linkDialogPlugin,
+  imagePlugin,
+  ConditionalContents,
+  EditorInFocus,
+  DirectiveNode,
+  Separator,
+  StrikeThroughSupSubToggles,
+  HighlightToggle,
+  codeBlockPlugin,
+  tablePlugin,
+} from "@mdxeditor/editor";
+import "@mdxeditor/editor/style.css";
 import "./index.css";
-import { FoldHorizontal } from "lucide-react";
-import { tryParseJSONObject } from "@/helper/renderer.helper";
+
+interface EditorProps {
+  value: any;
+  onChange: (...args: any[]) => any;
+  imageFolderName?: string;
+  editorRef?: React.RefObject<MDXEditorMethods | null>;
+}
+
+function whenInAdmonition(editorInFocus: EditorInFocus | null) {
+  const node = editorInFocus?.rootNode;
+  if (node?.getType() !== "directive") {
+    return false;
+  }
+
+  return ["note", "tip", "danger", "info", "caution"].includes(
+    (node as DirectiveNode).getMdastNode().name,
+  );
+}
 
 export default function TextEditor({
   value,
   onChange,
   imageFolderName = "uploads",
-}: {
-  value: any;
-  onChange: (...args: any[]) => any;
-  imageFolderName?: string;
-}) {
-  const isReady = useRef(false);
-  const [editor, setEditor] = useState<EditorJS>();
-
-  useEffect(() => {
-    (async () => {
-      if (!isReady.current) {
-        // Dynamically import EditorJS and plugins only on client side
-        await Promise.all([
-          import("@editorjs/editorjs"),
-          import("@editorjs/underline"),
-          import("@editorjs/paragraph"),
-          import("@editorjs/delimiter"),
-          import("@editorjs/warning"),
-          import("@editorjs/header"),
-          import("@editorjs/table"),
-          import("@editorjs/image"),
-          import("@editorjs/quote"),
-          import("@editorjs/list"),
-          // @ts-expect-error - no types available
-          import("@editorjs/raw"),
-          // @ts-expect-error - no types available
-          import("@editorjs/link"),
-          // @ts-expect-error - no types available
-          import("@editorjs/embed"),
-          // @ts-expect-error - no types available
-          import("@editorjs/marker"),
-          // @ts-expect-error - no types available
-          import("editorjs-text-alignment-blocktune"),
-          import("@editorjs/code"),
-        ]).then(
-          ([
-            { default: EditorJS },
-            { default: Underline },
-            { default: Paragraph },
-            { default: Delimiter },
-            { default: Warning },
-            { default: Header },
-            { default: Table },
-            { default: Image },
-            { default: Quote },
-            { default: List },
-            { default: Raw },
-            { default: Link },
-            { default: Embed },
-            { default: Marker },
-            { default: AlignmentTuneTool },
-            { default: Code },
-          ]) => {
-            const tools = {
-              list: {
-                class: List,
-                inlineToolbar: true,
-              },
-              header: {
-                class: Header,
-                tunes: ["textAlign"],
-              },
-              paragraph: {
-                class: Paragraph,
-                tunes: ["textAlign"],
-              },
-              image: {
-                class: Image,
-                config: {
-                  endpoints: {
-                    byFile: "/api/images/upload",
-                    byUrl: "/api/images/fetchUrl",
-                  },
-                  field: "image",
-                  additionalRequestData: {
-                    folder: imageFolderName,
-                  },
-                },
-              },
-              linkTool: {
-                class: Link,
-                config: {
-                  endpoint: "/api/fetchUrl",
-                },
-              },
-              html: Raw,
-              embed: Embed,
-              table: {
-                class: Table,
-                inlineToolbar: true,
-                config: {
-                  maxRows: 5,
-                  maxCols: 5,
-                },
-              },
-              quote: Quote,
-              marker: Marker,
-              warning: Warning,
-              underline: Underline,
-              delimiter: Delimiter,
-              code: {
-                class: Code,
-                inlineToolbar: true,
-              },
-              textAlign: {
-                class: AlignmentTuneTool,
-                config: {
-                  default: "left",
-                },
-              },
-            };
-
-            // prevent initializing editor more than once
-            if (!isReady.current) {
-              const editor = new EditorJS({
-                holder: "editorjs",
-                // @ts-expect-error - no types available
-                tools,
-                data: tryParseJSONObject(value) || {
-                  blocks: [
-                    {
-                      type: "paragraph",
-                      data: {
-                        text: value,
-                      },
-                    },
-                  ],
-                },
-                onChange: (api, e) => {
-                  api.saver.save().then((outputData: any) => {
-                    onChange(JSON.stringify(outputData));
-                  });
-                },
-              });
-
-              setEditor(editor);
-            }
-            isReady.current = true;
+  editorRef,
+}: EditorProps) {
+  return (
+    <MDXEditor
+      onChange={onChange}
+      ref={editorRef}
+      contentEditableClassName="mdx-content text-pretty"
+      markdown={value}
+      plugins={[
+        headingsPlugin(),
+        listsPlugin(),
+        linkPlugin(),
+        quotePlugin(),
+        thematicBreakPlugin(),
+        directivesPlugin({
+          directiveDescriptors: [AdmonitionDirectiveDescriptor],
+        }),
+        codeBlockPlugin({ defaultCodeBlockLanguage: "JavaScript" }),
+        codeMirrorPlugin({
+          codeBlockLanguages: {
+            js: "JavaScript",
+            ts: "TypeScript",
+            json: "JSON",
+            css: "CSS",
+            tsx: "TypeScript (React)",
+            jsx: "JavaScript (React)",
           },
-        );
-      }
-    })();
+          codeMirrorExtensions: [
+            EditorView.theme({
+              "&": {
+                backgroundColor: "var(--secondary-background)",
+                color: "var(--cm-text)",
+                borderRadius: "0.75rem",
+                fontFamily:
+                  'Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace',
+              },
+              ".cm-scroller": {
+                backgroundColor: "var(--secondary-background)",
+                border: "1px solid var(--cm-border)",
+                borderRadius: "0.75rem",
+              },
+              ".cm-content": {
+                color: "var(--cm-text)",
+                caretColor: "var(--cm-text)",
+                lineHeight: "1.6",
+                padding: "0.75rem 1rem",
+              },
+              ".cm-line": {
+                padding: "0 0.5rem",
+              },
+              ".cm-gutters": {
+                backgroundColor: "var(--secondary-background)",
+                borderRight: "1px solid var(--cm-border)",
+                color: "var(--cm-comment)",
+                padding: "0 0.5rem",
+              },
+              ".cm-lineNumbers .cm-gutterElement": {
+                fontFamily:
+                  'Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace',
+                fontSize: "0.75rem",
+                color: "var(--cm-comment)",
+              },
+              ".cm-activeLine": {
+                backgroundColor:
+                  "color-mix(in srgb, var(--cm-selection) 60%, transparent)",
+              },
+              ".cm-selectionBackground, &.cm-focused .cm-selectionBackground": {
+                background: "var(--cm-selection) !important",
+              },
+              ".cm-keyword": { color: "var(--cm-keyword)" },
+              ".cm-atom": { color: "var(--cm-property)" },
+              ".cm-number": { color: "var(--cm-property)" },
+              ".cm-def": { color: "var(--cm-function)" },
+              ".cm-variable": { color: "var(--cm-text)" },
+              ".cm-variable-2": { color: "var(--cm-function)" },
+              ".cm-variable-3": { color: "var(--cm-function)" },
+              ".cm-property": { color: "var(--cm-property)" },
+              ".cm-operator": { color: "var(--cm-operator)" },
+              ".cm-string": { color: "var(--cm-string)" },
+              ".cm-string-2": { color: "var(--cm-string)" },
+              ".cm-comment": { color: "var(--cm-comment)" },
+              ".cm-tag": { color: "var(--cm-keyword)" },
+              ".cm-attribute": { color: "var(--cm-function)" },
+              ".cm-qualifier": { color: "var(--cm-keyword)" },
+              ".cm-builtin": { color: "var(--cm-function)" },
+              ".cm-type": { color: "var(--cm-function)" },
+              ".cm-bracket": { color: "var(--cm-punctuation)" },
+              ".cm-punctuation": { color: "var(--cm-punctuation)" },
+              ".cm-meta": { color: "var(--cm-comment)" },
+              ".cm-invalidchar": { color: "var(--cm-string)" },
+            }),
+            keymap.of([
+              {
+                key: "Cmd-:",
+                run: toggleLineComment,
+              },
+            ]),
+          ],
+        }),
+        linkDialogPlugin(),
+        imagePlugin(),
+        tablePlugin(),
+        markdownShortcutPlugin(),
+        toolbarPlugin({
+          toolbarClassName: "mdx-toolbar",
+          toolbarContents: () => (
+            <ConditionalContents
+              options={[
+                {
+                  when: (editor) => editor?.editorType === "codeblock",
+                  contents: () => <ChangeCodeMirrorLanguage />,
+                },
+                {
+                  fallback: () => (
+                    <>
+                      <UndoRedo />
+                      <Separator />
+                      <BoldItalicUnderlineToggles />
+                      <ConditionalContents
+                        options={[
+                          {
+                            when: (editor) =>
+                              editor?.editorType === "codeblock",
+                            contents: () => <ChangeCodeMirrorLanguage />,
+                          },
+                          {
+                            fallback: () => (
+                              <>
+                                <InsertCodeBlock />
+                              </>
+                            ),
+                          },
+                        ]}
+                      />
+                      <HighlightToggle />
+                      <Separator />
+                      <StrikeThroughSupSubToggles />
+                      <Separator />
+                      <ListsToggle />
+                      <Separator />
 
-    return () => {
-      if (editor && editor.destroy) {
-        editor.destroy();
-      }
-    };
-  }, []);
+                      <ConditionalContents
+                        options={[
+                          {
+                            when: whenInAdmonition,
+                            contents: () => <ChangeAdmonitionType />,
+                          },
+                          { fallback: () => <BlockTypeSelect /> },
+                        ]}
+                      />
 
-  return <div id="editorjs" className="border rounded mt-2"></div>;
+                      <Separator />
+
+                      <CreateLink />
+                      <InsertImage />
+
+                      <Separator />
+
+                      <InsertTable />
+                      <InsertThematicBreak />
+
+                      <ConditionalContents
+                        options={[
+                          {
+                            when: (editorInFocus) =>
+                              !whenInAdmonition(editorInFocus),
+                            contents: () => (
+                              <>
+                                <Separator />
+                                <InsertAdmonition />
+                              </>
+                            ),
+                          },
+                        ]}
+                      />
+                    </>
+                  ),
+                },
+              ]}
+            />
+          ),
+        }),
+      ]}
+    />
+  );
 }

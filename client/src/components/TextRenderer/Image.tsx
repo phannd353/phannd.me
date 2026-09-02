@@ -1,23 +1,25 @@
-import NextImage from 'next/image';
+import NextImage from "next/image";
+import { PropsWithChildren, ImgHTMLAttributes } from "react";
 
 export default function Image({
-  data,
-  tunes,
-}: {
-  data: { file: { url: string }; caption: string };
-  tunes?: { caption: boolean };
-}) {
+  title = "Image not found",
+  src = "/assets/image/not-found.webp",
+  alt = "Image not found",
+  ...props
+}: PropsWithChildren<ImgHTMLAttributes<HTMLElement>>) {
   return (
     <figure className="max-w-[1200px] max-h-[800px] overflow-hidden">
       <NextImage
-        src={data.file.url}
-        alt={data.caption}
-        loading="lazy"
+        {...props}
         width={1200}
         height={800}
+        src={src as string}
+        alt={alt}
+        title={title}
+        loading="lazy"
         // className="w-full h-full object-cover object-center"
       />
-      {tunes?.caption && <figcaption>{data.caption}</figcaption>}
+      {title && <figcaption>{title}</figcaption>}
     </figure>
   );
 }

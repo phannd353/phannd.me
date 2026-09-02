@@ -7,7 +7,6 @@ import { notFound } from "next/navigation";
 import readingTime, { ReadTimeResults } from "reading-time";
 import DetailPostHeading from "@/components/website/post/detail/detail-post-heading";
 import { Card, CardContent } from "@/components/ui/card";
-import { CLIENT_HOST } from "@/lib/config";
 import { genMetadata } from "@/lib/metadata.lib";
 
 interface PostPageProps {
@@ -130,7 +129,7 @@ export default async function PostPage({ params }: PostPageProps) {
               </div>*/}
             {/*</div>*/}
             {/* Content */}
-            <main className="relative mx-auto max-w-3xl border-slate-500/50 py-5">
+            <main className="relative mx-auto border-slate-500/50 py-5">
               <TextRenderer content={post.content} />
             </main>
             {/*<div className="mx-auto mt-10">*/}

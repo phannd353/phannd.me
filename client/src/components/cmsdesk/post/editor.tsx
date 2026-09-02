@@ -1,4 +1,17 @@
-'use client';
+"use client";
+
+import { SparklesIcon, Loader2 as SpinnerIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { FC, Suspense, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import slugify from "react-slugify";
+import { v4 } from "uuid";
+import * as z from "zod";
+import { useLocale } from "next-intl";
+import dynamic from "next/dynamic";
+import { useAuth, useAuthenticate } from "@better-auth-ui/react";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 import {
   AlertDialog,
@@ -6,15 +19,15 @@ import {
   AlertDialogDescription,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
-import { Button } from '@/components/ui/button';
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -23,34 +36,18 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Separator } from '@/components/ui/separator';
-import { Textarea } from '@/components/ui/textarea';
-import { protectedEditorConfig, protectedPostConfig } from '@/config/cmsdesk';
-import { postEditFormSchema } from '@/lib/validation/post';
-import { PaperClipIcon } from '@heroicons/react/20/solid';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { SparklesIcon, Loader2 as SpinnerIcon } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { FC, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { toast } from 'sonner';
-import slugify from 'react-slugify';
-import { v4 } from 'uuid';
-import * as z from 'zod';
-import {
-  EditorUploadCoverImageItem,
-  EditorUploadCoverImagePlaceHolder,
-} from './upload';
-import { PostResponseDto } from '@/types/collection';
-import { updatePost } from '@/services/post.service';
-import TextEditor from '@/components/TextEditor';
-import { useLocale } from 'next-intl';
-import ImageInput from '../ImageInput';
-import { IImage } from '@/types/image';
-import { useEffect } from 'react';
-import { useAuth, useAuthenticate } from '@better-auth-ui/react';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
+import { Textarea } from "@/components/ui/textarea";
+import { protectedEditorConfig, protectedPostConfig } from "@/config/cmsdesk";
+import { postEditFormSchema } from "@/lib/validation/post";
+import { PostResponseDto } from "@/types/collection";
+import { updatePost } from "@/services/post.service";
+import ImageInput from "../ImageInput";
+const TextEditor = dynamic(() => import("@/components/TextEditor"), {
+  ssr: false,
+});
 
 interface EditorProps {
   post: PostResponseDto;
@@ -63,7 +60,7 @@ const Editor: FC<EditorProps> = ({ post, imageFolderName }) => {
   const router = useRouter();
   const { authClient } = useAuth();
   const { data } = useAuthenticate(authClient);
-  const userId = data?.user.id || '';
+  const userId = data?.user.id || "";
   const locale = useLocale();
 
   // These are the values that will be used to upload the image
@@ -73,13 +70,13 @@ const Editor: FC<EditorProps> = ({ post, imageFolderName }) => {
   const [showCoverModal, setShowCoverModal] = useState<boolean>(false);
 
   // Editor
-  const [saveStatus, setSaveStatus] = useState('Saved');
+  const [saveStatus, setSaveStatus] = useState("Saved");
 
   const [content, setContent] = useState<string | null>(post?.content || null);
 
   // Handle cover image upload complete
   const handleCoverUploadComplete = (img: string) => {
-    form.setValue('thumbnail', img);
+    form.setValue("thumbnail", img);
     toast.success(protectedEditorConfig.successMessageImageUpload);
     router.refresh();
   };
@@ -90,10 +87,10 @@ const Editor: FC<EditorProps> = ({ post, imageFolderName }) => {
 
   // Default values for the form
   const defaultValues: Partial<EditorFormValues> = {
-    title: post.title ?? 'Untitled',
+    title: post.title ?? "Untitled",
     slug: post.slug ?? `post-${v4()}`,
     thumbnail: post.thumbnail ?? undefined,
-    summary: post.summary ?? 'Post summary',
+    summary: post.summary ?? "Post summary",
     content: content ?? protectedEditorConfig.placeholderContent,
     published: post.published === true,
   };
@@ -101,7 +98,7 @@ const Editor: FC<EditorProps> = ({ post, imageFolderName }) => {
   const form = useForm<EditorFormValues>({
     resolver: zodResolver(postEditFormSchema),
     defaultValues,
-    mode: 'onChange',
+    mode: "onChange",
   });
 
   async function onSubmit(data: EditorFormValues) {
@@ -122,7 +119,7 @@ const Editor: FC<EditorProps> = ({ post, imageFolderName }) => {
       toast.success(protectedEditorConfig.successMessage);
       router.push(`/cmsdesk/posts?search=refresh`);
     } else {
-      toast.error(protectedEditorConfig.errorMessage + ': ' + response.message);
+      toast.error(protectedEditorConfig.errorMessage + ": " + response.message);
     }
 
     setIsSaving(false);
@@ -135,23 +132,23 @@ const Editor: FC<EditorProps> = ({ post, imageFolderName }) => {
         {/* Title */}
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className='grid grid-cols-12 gap-8'
+          className="grid grid-cols-12 gap-8"
         >
           {/* General information */}
-          <Card className='col-span-12'>
+          <Card className="col-span-12">
             <CardHeader>
               <CardTitle>{protectedEditorConfig.generalTitle}</CardTitle>
               <CardDescription>
                 {protectedEditorConfig.generalDescription}
               </CardDescription>
             </CardHeader>
-            <Separator className='' />
-            <CardContent className='space-y-4'>
+            <Separator className="" />
+            <CardContent className="space-y-4">
               <FormField
                 control={form.control}
-                name='title'
+                name="title"
                 render={({ field }) => (
-                  <FormItem className='w-full'>
+                  <FormItem className="w-full">
                     <FormLabel>{protectedEditorConfig.formTitle}</FormLabel>
                     <FormControl>
                       <Input
@@ -166,9 +163,9 @@ const Editor: FC<EditorProps> = ({ post, imageFolderName }) => {
               {/* Slug */}
               <FormField
                 control={form.control}
-                name='slug'
+                name="slug"
                 render={({ field }) => (
-                  <FormItem className='w-full'>
+                  <FormItem className="w-full">
                     <FormLabel>{protectedEditorConfig.slug}</FormLabel>
                     <FormControl>
                       <Input
@@ -178,15 +175,15 @@ const Editor: FC<EditorProps> = ({ post, imageFolderName }) => {
                     </FormControl>
                     <FormDescription>
                       <Button
-                        type='button'
-                        variant='outline'
-                        size='sm'
-                        className='mt-2'
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        className="mt-2"
                         onClick={() =>
-                          field.onChange(slugify(form.getValues('title')))
+                          field.onChange(slugify(form.getValues("title")))
                         }
                       >
-                        <SparklesIcon className='mr-2 h-4 w-4' />
+                        <SparklesIcon className="mr-2 h-4 w-4" />
                         {protectedEditorConfig.generateSlug}
                       </Button>
                     </FormDescription>
@@ -244,21 +241,21 @@ const Editor: FC<EditorProps> = ({ post, imageFolderName }) => {
           </Card>*/}
 
           {/* Cover Image */}
-          <Card className='col-span-4'>
+          <Card className="col-span-4">
             <CardHeader>
               <CardTitle>{protectedEditorConfig.coverImageTitle}</CardTitle>
               <CardDescription>
                 {protectedEditorConfig.coverImageDescription}
               </CardDescription>
             </CardHeader>
-            <Separator className='' />
-            <CardContent className='space-y-4'>
+            <Separator className="" />
+            <CardContent className="space-y-4">
               {/* Image */}
               <FormField
                 control={form.control}
-                name='thumbnail'
+                name="thumbnail"
                 render={({ field }) => (
-                  <FormItem className='m-0'>
+                  <FormItem className="m-0">
                     <FormControl>
                       {/*<Input
                         placeholder={protectedEditorConfig.placeholderImage}
@@ -267,9 +264,9 @@ const Editor: FC<EditorProps> = ({ post, imageFolderName }) => {
                         className="hidden bg-gray-50"
                       />*/}
                       <ImageInput
-                        label='Upload Cover Image'
-                        name='thumbnail'
-                        value={form.getValues('thumbnail')}
+                        label="Upload Cover Image"
+                        name="thumbnail"
+                        value={form.getValues("thumbnail")}
                         onChange={handleCoverUploadComplete}
                         multiple={false}
                       />
@@ -281,7 +278,7 @@ const Editor: FC<EditorProps> = ({ post, imageFolderName }) => {
           </Card>
 
           {/* Short Description */}
-          <Card className='col-span-8'>
+          <Card className="col-span-8">
             <CardHeader>
               <CardTitle>
                 {protectedEditorConfig.shortDescriptionTitle}
@@ -290,12 +287,12 @@ const Editor: FC<EditorProps> = ({ post, imageFolderName }) => {
                 {protectedEditorConfig.shortDescriptionDescription}
               </CardDescription>
             </CardHeader>
-            <Separator className='' />
-            <CardContent className='space-y-4'>
+            <Separator className="" />
+            <CardContent className="space-y-4">
               {/* Description */}
               <FormField
                 control={form.control}
-                name='summary'
+                name="summary"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
@@ -303,7 +300,7 @@ const Editor: FC<EditorProps> = ({ post, imageFolderName }) => {
                         placeholder={
                           protectedEditorConfig.placeholderDescription
                         }
-                        className='resize-none'
+                        className="resize-none"
                         {...field}
                       />
                     </FormControl>
@@ -314,30 +311,34 @@ const Editor: FC<EditorProps> = ({ post, imageFolderName }) => {
             </CardContent>
           </Card>
 
-          <div className='col-span-12'>
-            <TextEditor
-              value={content}
-              onChange={setContent}
-              imageFolderName={imageFolderName}
-            />
+          <div className="col-span-12">
+            <Card>
+              <Suspense>
+                <TextEditor
+                  value={content}
+                  onChange={setContent}
+                  imageFolderName={imageFolderName}
+                />
+              </Suspense>
+            </Card>
           </div>
 
-          <div className='col-span-12 infline-flex flex items-center justify-end space-x-3 mb-8'>
+          <div className="col-span-12 infline-flex flex items-center justify-end space-x-3 mb-8">
             {post.published ? (
               <>
                 <Button
-                  type='submit'
-                  className='flex px-10 text-red-500! border-red-500! hover:bg-red-100!'
+                  type="submit"
+                  className="flex px-10 text-red-500! border-red-500! hover:bg-red-100!"
                   disabled={isSaving}
-                  variant={'outline'}
-                  onClick={() => form.setValue('published', false)}
+                  variant={"outline"}
+                  onClick={() => form.setValue("published", false)}
                 >
                   {protectedEditorConfig.unpublish}
                 </Button>
 
                 <Button
-                  type='submit'
-                  className='flex bg-gray-900! px-10 text-white! hover:bg-gray-800!'
+                  type="submit"
+                  className="flex bg-gray-900! px-10 text-white! hover:bg-gray-800!"
                   disabled={isSaving}
                 >
                   {protectedEditorConfig.submit}
@@ -346,17 +347,17 @@ const Editor: FC<EditorProps> = ({ post, imageFolderName }) => {
             ) : (
               <>
                 <Button
-                  type='submit'
-                  className='flex px-10 text-white! bg-green-500! hover:bg-green-600!'
+                  type="submit"
+                  className="flex px-10 text-white! bg-green-500! hover:bg-green-600!"
                   disabled={isSaving}
-                  onClick={() => form.setValue('published', true)}
+                  onClick={() => form.setValue("published", true)}
                 >
                   {protectedEditorConfig.publish}
                 </Button>
 
                 <Button
-                  type='submit'
-                  className='flex bg-gray-900! px-10 text-white! hover:bg-gray-800!'
+                  type="submit"
+                  className="flex bg-gray-900! px-10 text-white! hover:bg-gray-800!"
                   disabled={isSaving}
                 >
                   {protectedEditorConfig.saveDraft}
@@ -365,9 +366,9 @@ const Editor: FC<EditorProps> = ({ post, imageFolderName }) => {
             )}
 
             <Button
-              type='button'
+              type="button"
               onClick={() => router.back()}
-              className='flex !bg-gray-100 px-10 !text-gray-900 hover:!bg-gray-200'
+              className="flex !bg-gray-100 px-10 !text-gray-900 hover:!bg-gray-200"
               disabled={isSaving}
             >
               {protectedEditorConfig.cancel}
@@ -376,13 +377,13 @@ const Editor: FC<EditorProps> = ({ post, imageFolderName }) => {
         </form>
       </Form>
       <AlertDialog open={showLoadingAlert} onOpenChange={setShowLoadingAlert}>
-        <AlertDialogContent className=''>
+        <AlertDialogContent className="">
           <AlertDialogHeader>
-            <AlertDialogTitle className='text-center'>
+            <AlertDialogTitle className="text-center">
               {protectedPostConfig.pleaseWait}
             </AlertDialogTitle>
-            <AlertDialogDescription className='mx-auto text-center'>
-              <SpinnerIcon className='h-6 w-6 animate-spin' />
+            <AlertDialogDescription className="mx-auto text-center">
+              <SpinnerIcon className="h-6 w-6 animate-spin" />
             </AlertDialogDescription>
           </AlertDialogHeader>
         </AlertDialogContent>
