@@ -54,7 +54,6 @@ export class InfrastructureHelper {
       // const result = await client.query(`
       //   SELECT tablename, schemaname FROM pg_catalog.pg_tables WHERE schemaname NOT IN ('pg_catalog', 'information_schema');
       // `);
-      // console.log('Created tables: ', result.rows);
       // await client.end();
     }
   }

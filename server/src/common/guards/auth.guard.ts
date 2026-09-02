@@ -58,8 +58,6 @@ export class BetterAuthGuard implements CanActivate {
         `${this.configService.get('betterAuth.cookiePrefix')}.session_data`;
       let token = cookies.get(sessionDataCookieName);
 
-      console.log('Extracted token:', token);
-
       if (!token) {
         // try to get splitted token from cookie
         // Check if the token is split into multiple parts in cookies
