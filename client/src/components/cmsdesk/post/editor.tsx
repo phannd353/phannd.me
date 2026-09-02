@@ -105,25 +105,34 @@ const Editor: FC<EditorProps> = ({ post, imageFolderName }) => {
     setShowLoadingAlert(true);
     setIsSaving(true);
 
-    const response = await updatePost(post.id, {
-      title: data.title,
-      slug: data.slug,
-      thumbnail: data.thumbnail,
-      summary: data.summary,
-      content: content!,
-      // categoryId: data.categoryId,
-      published: !!data.published,
-    });
+    try {
+      const response = await updatePost(post.id, {
+        title: data.title,
+        slug: data.slug,
+        thumbnail: data.thumbnail,
+        summary: data.summary,
+        content: content!,
+        // categoryId: data.categoryId,
+        published: !!data.published,
+      });
 
-    if (response.statusCode < 400) {
-      toast.success(protectedEditorConfig.successMessage);
-      router.push(`/cmsdesk/posts?search=refresh`);
-    } else {
-      toast.error(protectedEditorConfig.errorMessage + ": " + response.message);
+      if (response.statusCode < 400) {
+        toast.success(protectedEditorConfig.successMessage);
+        router.push(`/cmsdesk/posts?search=refresh`);
+      } else {
+        toast.error(
+          protectedEditorConfig.errorMessage + ": " + response.message,
+        );
+      }
+
+      setIsSaving(false);
+      setShowLoadingAlert(false);
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      toast.error(protectedEditorConfig.errorMessage);
+      setIsSaving(false);
+      setShowLoadingAlert(false);
     }
-
-    setIsSaving(false);
-    setShowLoadingAlert(false);
   }
 
   return (
