@@ -1,18 +1,18 @@
-'use server';
+"use server";
 
-import { IImage, ImageMetadata } from '@/types/image';
-import { v2 as cloudinary } from 'cloudinary';
+import { IImage, ImageMetadata } from "@/types/image";
+import { v2 as cloudinary } from "cloudinary";
 
 // Configure Cloudinary
 // Parse CLOUDINARY_URL format: cloudinary://api_key:api_secret@cloud_name
 const cloudinaryUrl = process.env.CLOUDINARY_URL;
 if (!cloudinaryUrl) {
-  throw new Error('CLOUDINARY_URL environment variable is not set');
+  throw new Error("CLOUDINARY_URL environment variable is not set");
 }
 
 const urlMatch = cloudinaryUrl.match(/cloudinary:\/\/(\d+):([^@]+)@(.+)/);
 if (!urlMatch) {
-  throw new Error('Invalid CLOUDINARY_URL format');
+  throw new Error("Invalid CLOUDINARY_URL format");
 }
 
 const [, apiKey, apiSecret, cloudName] = urlMatch;
@@ -30,12 +30,11 @@ cloudinary.config({
  * @returns Array of uploaded image details
  */
 export async function uploadImages(formData: FormData): Promise<IImage[]> {
-  console.log('Received formData:', formData);
-  const folder = (formData.get('folder') as string) || 'phannd.me';
-  const files = formData.getAll('image') as File[];
+  const folder = (formData.get("folder") as string) || "phannd.me";
+  const files = formData.getAll("image") as File[];
 
   if (!files || files.length === 0) {
-    throw new Error('No images provided');
+    throw new Error("No images provided");
   }
 
   const uploadPromises = files.map(async (file) => {
@@ -48,8 +47,8 @@ export async function uploadImages(formData: FormData): Promise<IImage[]> {
       const uploadStream = cloudinary.uploader.upload_stream(
         {
           folder: folder,
-          resource_type: 'image',
-          transformation: [{ quality: 'auto:good' }, { fetch_format: 'auto' }],
+          resource_type: "image",
+          transformation: [{ quality: "auto:good" }, { fetch_format: "auto" }],
         },
         (error, result) => {
           if (error) {
@@ -78,11 +77,11 @@ export async function uploadImages(formData: FormData): Promise<IImage[]> {
 }
 
 export async function getImages(
-  folder: string = 'phannd.me',
+  folder: string = "phannd.me",
 ): Promise<IImage[]> {
   const result = await cloudinary.search
     .expression(`folder="${folder}"`)
-    .with_field('context')
+    .with_field("context")
     .max_results(100)
     .execute();
 
@@ -122,7 +121,7 @@ export async function updateImageMetadata(
     ...(metadata.category && { category: metadata.category }),
   };
   await cloudinary.uploader.explicit(publicId, {
-    type: 'upload',
+    type: "upload",
     context,
     ...(metadata.transformations && {
       transformation: metadata.transformations,
